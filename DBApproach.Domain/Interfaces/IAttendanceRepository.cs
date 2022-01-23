@@ -1,13 +1,10 @@
-﻿using DatabaseApproach.Domain.Repository.Models;
-using System;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
+﻿//using DatabaseApproach.Domain.Repository.Models;
+//using System.Linq;
 
-namespace DBApproach.Domain.Interfaces
-{
-    public interface IAttendanceRepository : IRepository<Attendance>
-    {
-        IQueryable<Attendance> GetAttendanceByAccount(string accountId);
-    }
-}
+//namespace DBApproach.Domain.Interfaces
+//{
+//    public interface IAttendanceRepository : IRepository<Attendance>
+//    {
+//        IQueryable<Attendance> GetAttendanceByAccount(string accountId);
+//    }
+//}

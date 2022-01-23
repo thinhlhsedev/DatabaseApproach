@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using DatabaseApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repository.Models;
 
 // Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
 // If you have enabled NRTs for your project, then un-comment the following line:
 // #nullable disable
 
-namespace DatabaseApproach.Domain.Repository
+namespace DBApproach.Domain.Repository
 {
     public partial class TestDbContext : DbContext
     {
@@ -34,12 +34,13 @@ namespace DatabaseApproach.Domain.Repository
         public virtual DbSet<Product> Product { get; set; }
         public virtual DbSet<ProductComponent> ProductComponent { get; set; }
         public virtual DbSet<Role> Role { get; set; }
-        public virtual DbSet<SectionDepartment> SectionDepartment { get; set; }
+        public virtual DbSet<Section> Section { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=ADMIN;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
             }
         }
@@ -48,28 +49,56 @@ namespace DatabaseApproach.Domain.Repository
         {
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.HasOne(d => d.AccountNavigation)
-                    .WithOne(p => p.Account)
-                    .HasForeignKey<Account>(d => d.AccountId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Account_SectionDepartment");
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.Address).HasMaxLength(100);
+
+                entity.Property(e => e.AvatarUrl).HasMaxLength(100);
+
+                entity.Property(e => e.DateOfBirth).HasColumnType("datetime");
+
+                entity.Property(e => e.Email).HasMaxLength(100);
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.Password).HasMaxLength(100);
+
+                entity.Property(e => e.Phone).HasMaxLength(100);
+
+                entity.Property(e => e.RoleId).HasMaxLength(100);
 
                 entity.HasOne(d => d.Role)
                     .WithMany(p => p.Account)
                     .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("FK_Account_Role");
+                    .HasConstraintName("FK_Account_Role1");
             });
 
             modelBuilder.Entity<Attendance>(entity =>
             {
+                entity.Property(e => e.AttendanceId).HasMaxLength(100);
+
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.CheckDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Note).HasMaxLength(100);
+
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Attendance)
                     .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK_Attendance_SectionDepartment");
+                    .HasConstraintName("FK_Attendance_Section");
             });
 
             modelBuilder.Entity<AttendanceDetail>(entity =>
             {
+                entity.Property(e => e.AttendanceDetailId).HasMaxLength(100);
+
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.AttendanceId).HasMaxLength(100);
+
+                entity.Property(e => e.Note).HasMaxLength(100);
+
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.AttendanceDetail)
                     .HasForeignKey(d => d.AccountId)
@@ -81,103 +110,228 @@ namespace DatabaseApproach.Domain.Repository
                     .HasConstraintName("FK_AttendanceDetail_Attendance");
             });
 
+            modelBuilder.Entity<Component>(entity =>
+            {
+                entity.Property(e => e.ComponentId).HasMaxLength(100);
+
+                entity.Property(e => e.ComponentName).HasMaxLength(100);
+
+                entity.Property(e => e.ExpiryDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ImageUrl).HasMaxLength(100);
+
+                entity.Property(e => e.ManufactuirngDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+            });
+
             modelBuilder.Entity<ComponentMaterial>(entity =>
             {
+                entity.ToTable("Component_Material");
+
+                entity.Property(e => e.Id).HasMaxLength(100);
+
+                entity.Property(e => e.ComponentId).HasMaxLength(100);
+
+                entity.Property(e => e.MaterialId).HasMaxLength(100);
+
                 entity.HasOne(d => d.Component)
                     .WithMany(p => p.ComponentMaterial)
                     .HasForeignKey(d => d.ComponentId)
-                    .HasConstraintName("FK_Component_Material_Component");
+                    .HasConstraintName("FK_Component_Material_Component1");
 
                 entity.HasOne(d => d.Material)
                     .WithMany(p => p.ComponentMaterial)
                     .HasForeignKey(d => d.MaterialId)
-                    .HasConstraintName("FK_Component_Material_Matrial");
+                    .HasConstraintName("FK_Component_Material_Matrial1");
             });
 
             modelBuilder.Entity<ImportExport>(entity =>
             {
+                entity.Property(e => e.ImportExportId).HasMaxLength(100);
+
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ItemType).HasMaxLength(100);
+
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.ImportExport)
                     .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK_ImportExport_SectionDepartment");
+                    .HasConstraintName("FK_ImportExport_Section");
             });
 
             modelBuilder.Entity<ImportExportDetail>(entity =>
             {
+                entity.Property(e => e.ImportExportDetailId).HasMaxLength(100);
+
+                entity.Property(e => e.ImportExportId).HasMaxLength(100);
+
+                entity.Property(e => e.ItemId).HasMaxLength(100);
+
                 entity.HasOne(d => d.ImportExport)
                     .WithMany(p => p.ImportExportDetail)
                     .HasForeignKey(d => d.ImportExportId)
-                    .HasConstraintName("FK_ImportExportDetail_ImportExport");
+                    .HasConstraintName("FK_ImportExportDetail_ImportExport1");
 
                 entity.HasOne(d => d.Item)
                     .WithMany(p => p.ImportExportDetail)
                     .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK_ImportExportDetail_Component");
+                    .HasConstraintName("FK_ImportExportDetail_Component1");
 
                 entity.HasOne(d => d.ItemNavigation)
                     .WithMany(p => p.ImportExportDetail)
                     .HasForeignKey(d => d.ItemId)
-                    .HasConstraintName("FK_ImportExportDetail_Matrial");
+                    .HasConstraintName("FK_ImportExportDetail_Matrial1");
+            });
+
+            modelBuilder.Entity<Matrial>(entity =>
+            {
+                entity.HasKey(e => e.MaterialId);
+
+                entity.Property(e => e.MaterialId).HasMaxLength(100);
+
+                entity.Property(e => e.ImageUrl).HasMaxLength(100);
+
+                entity.Property(e => e.MaterialName).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
             });
 
             modelBuilder.Entity<Order>(entity =>
             {
+                entity.Property(e => e.OrderId).HasMaxLength(100);
+
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.Deadline).HasColumnType("datetime");
+
+                entity.Property(e => e.Note).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+
                 entity.HasOne(d => d.Account)
                     .WithMany(p => p.Order)
                     .HasForeignKey(d => d.AccountId)
-                    .HasConstraintName("FK_Order_Account");
+                    .HasConstraintName("FK_Order_Account1");
             });
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
+                entity.Property(e => e.OrderDetailId).HasMaxLength(100);
+
+                entity.Property(e => e.Note).HasMaxLength(100);
+
+                entity.Property(e => e.OrderId).HasMaxLength(100);
+
+                entity.Property(e => e.ProductId).HasMaxLength(100);
+
                 entity.HasOne(d => d.Order)
                     .WithMany(p => p.OrderDetail)
                     .HasForeignKey(d => d.OrderId)
-                    .HasConstraintName("FK_OrderDetail_Order");
+                    .HasConstraintName("FK_OrderDetail_Order1");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.OrderDetail)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_OrderDetail_Product");
+                    .HasConstraintName("FK_OrderDetail_Product1");
             });
 
             modelBuilder.Entity<Process>(entity =>
             {
-                entity.HasOne(d => d.Manufacturing)
-                    .WithMany(p => p.Process)
-                    .HasForeignKey(d => d.ManufacturingId)
-                    .HasConstraintName("FK_Process_Account");
+                entity.Property(e => e.ProcessId).HasMaxLength(100);
+
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ExpiryDate).HasColumnType("datetime");
+
+                entity.Property(e => e.FinishedDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ManufacturingId).HasMaxLength(100);
+
+                entity.Property(e => e.OrderDetailId).HasMaxLength(100);
+
+                entity.Property(e => e.SectionId).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
 
                 entity.HasOne(d => d.OrderDetail)
                     .WithMany(p => p.Process)
                     .HasForeignKey(d => d.OrderDetailId)
-                    .HasConstraintName("FK_Process_OrderDetail");
+                    .HasConstraintName("FK_Process_OrderDetail1");
 
                 entity.HasOne(d => d.Section)
                     .WithMany(p => p.Process)
                     .HasForeignKey(d => d.SectionId)
-                    .HasConstraintName("FK_Process_SectionDepartment");
+                    .HasConstraintName("FK_Process_Section");
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.Property(e => e.ProductId).HasMaxLength(100);
+
+                entity.Property(e => e.ExpiryDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ImageUrl).HasMaxLength(100);
+
+                entity.Property(e => e.ManufacturingDate).HasColumnType("datetime");
+
+                entity.Property(e => e.ProductName).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+
+                entity.Property(e => e.Unit).HasMaxLength(100);
             });
 
             modelBuilder.Entity<ProductComponent>(entity =>
             {
+                entity.ToTable("Product_Component");
+
+                entity.Property(e => e.Id).HasMaxLength(100);
+
+                entity.Property(e => e.ComponentId).HasMaxLength(100);
+
+                entity.Property(e => e.ProductId).HasMaxLength(100);
+
                 entity.HasOne(d => d.Component)
                     .WithMany(p => p.ProductComponent)
                     .HasForeignKey(d => d.ComponentId)
-                    .HasConstraintName("FK_Product_Component_Component");
+                    .HasConstraintName("FK_Product_Component_Component1");
 
                 entity.HasOne(d => d.Product)
                     .WithMany(p => p.ProductComponent)
                     .HasForeignKey(d => d.ProductId)
-                    .HasConstraintName("FK_Product_Component_Product");
+                    .HasConstraintName("FK_Product_Component_Product1");
             });
 
-            modelBuilder.Entity<SectionDepartment>(entity =>
+            modelBuilder.Entity<Role>(entity =>
             {
+                entity.Property(e => e.RoleId).HasMaxLength(100);
+
+                entity.Property(e => e.Name).HasMaxLength(100);
+
+                entity.Property(e => e.Status).HasMaxLength(100);
+            });
+
+            modelBuilder.Entity<Section>(entity =>
+            {
+                entity.HasKey(e => e.AccountId);
+
+                entity.Property(e => e.AccountId).HasMaxLength(100);
+
+                entity.Property(e => e.ComponentId).HasMaxLength(100);
+
+                entity.HasOne(d => d.Account)
+                    .WithOne(p => p.Section)
+                    .HasForeignKey<Section>(d => d.AccountId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Section_Account");
+
                 entity.HasOne(d => d.Component)
-                    .WithMany(p => p.SectionDepartment)
+                    .WithMany(p => p.Section)
                     .HasForeignKey(d => d.ComponentId)
-                    .HasConstraintName("FK_SectionDepartment_Component");
+                    .HasConstraintName("FK_Section_Component");
             });
 
             OnModelCreatingPartial(modelBuilder);

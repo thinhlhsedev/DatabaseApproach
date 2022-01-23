@@ -1,5 +1,4 @@
-﻿
-using DatabaseApproach.Domain.Repository;
+﻿using DBApproach.Domain.Repository;
 using DBApproach.Business.Services;
 using DBApproach.Domain.Interfaces;
 using DBApproach.Infrastructure;
@@ -29,18 +28,40 @@ namespace DatabaseApproach.Extensions
 
         public static IServiceCollection AddRepositories(this IServiceCollection services)
         {
+            //Configure Interface vs Repo
             return services
                 .AddScoped(typeof(IRepository<>), typeof(Repository<>))
                 .AddScoped<IAccountRepository, AccountRepository>()
                 .AddScoped<IAttendanceRepository, AttendanceRepository>()
-                .AddScoped<IComponentRepository, ComponentRepository>(); ;
+                .AddScoped<IAttendanceDetailRepository, AttendanceDetailRepository>()
+                .AddScoped<IComponentRepository, ComponentRepository>()
+                .AddScoped<IMaterialRepository, MaterialRepository>()
+                .AddScoped<IProductRepository, ProductRepository>()
+                .AddScoped<IOrderRepository, OrderRepository>()
+                .AddScoped<IOrderDetailRepository, OrderDetailRepository>()
+                .AddScoped<IProcessRepository, ProcessRepository>()
+                .AddScoped<IRoleRepository, RoleRepository>()
+                .AddScoped<IProductComponentRepository, ProductComponentRepository>()
+                .AddScoped<IComponentMaterialRepository, ComponentMaterialRepository>()
+                .AddScoped<IImportExportRepository, ImportExportRepository>();
         }
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
+            //Add service
             return services.AddScoped<AccountService>()
                 .AddScoped<AttendanceService>()
-                .AddScoped<ComponentService>();
+                .AddScoped<AttendanceDetailService>()
+                .AddScoped<ComponentService>()
+                .AddScoped<MaterialService>()
+                .AddScoped<ProductService>()
+                .AddScoped<OrderService>()
+                .AddScoped<OrderDetailService>()
+                .AddScoped<ProcessService>()
+                .AddScoped<RoleService>()
+                .AddScoped<ProductComponentService>()
+                .AddScoped<ComponentMaterialService>()
+                .AddScoped<ImportExportService>();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DatabaseApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repository.Models;
 using DBApproach.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -19,7 +19,8 @@ namespace DBApproach.Business.Services
 
         public IQueryable<Attendance> GetAttendanceByAccount(string accountId)
         {
-            IQueryable<Attendance> list = _attendanceRepository.GetAttendanceByAccount(accountId);
+            IQueryable<Attendance> list = _attendanceRepository
+                .GetAttendanceByAccount(p => p.AccountId == accountId).Distinct();
             return list;
         }
     }

@@ -16,6 +16,6 @@ namespace DBApproach.Domain.Repository.Models
 
         public virtual ImportExport ImportExport { get; set; }
         public virtual Component Item { get; set; }
-        public virtual Matrial ItemNavigation { get; set; }
+        public virtual Material ItemNavigation { get; set; }
     }
 }

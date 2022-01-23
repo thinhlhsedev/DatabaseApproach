@@ -5,29 +5,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using DatabaseApproach.Domain.Repository;
-using DatabaseApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repository;
+using DBApproach.Domain.Repository.Models;
 using DBApproach.Business.Services;
 
 namespace DatabaseApproach.Controllers
 {    
     [ApiController]
-    public class AttendancesController : ControllerBase
+    public class AttendanceController : ControllerBase
     {
         private readonly AttendanceService _attendanceService;
 
-        public AttendancesController(
+        public AttendanceController(
             AttendanceService attendanceService)
         {
             _attendanceService = attendanceService;
         }
 
-        // GET: getAttendancesOf/1
+        // GET: getAttendancesOf/acc/1
         [HttpGet]
-        [Route("getAttendancesOf/{id}")]
-        public ActionResult<IQueryable<Attendance>> GetAttendanceByAccount(string id)
+        [Route("getAttendancesOf/acc/{accountId}")]
+        public ActionResult<IQueryable<Attendance>> GetAttendanceByAccount(string accountId)
         {
-            var data = _attendanceService.GetAttendanceByAccount(id);
+            var data = _attendanceService.GetAttendanceByAccount(accountId);
             if (data == null)
             {
                 return NotFound();

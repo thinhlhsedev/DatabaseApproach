@@ -1,4 +1,4 @@
-﻿using DatabaseApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repository.Models;
 using DBApproach.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -6,12 +6,12 @@ using System.Linq;
 namespace DatabaseApproach.Controllers
 {
     [ApiController]
-    public class ComponentsController : ControllerBase
+    public class ComponentController : ControllerBase
     {
 
         private readonly ComponentService _componentService;
 
-        public ComponentsController(
+        public ComponentController(
              ComponentService componentService)
         {
             _componentService = componentService;

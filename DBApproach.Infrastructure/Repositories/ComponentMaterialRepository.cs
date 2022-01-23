@@ -6,10 +6,10 @@ using System.Linq.Expressions;
 
 namespace DBApproach.Infrastructure.Repositories
 {
-    public class ComponentRepository: Repository<Component>, IComponentRepository 
+    public class ComponentMaterialRepository : Repository<ComponentMaterial>, IComponentMaterialRepository
     {
-        public ComponentRepository(DbFactory dbFactory) : base(dbFactory)
+        public ComponentMaterialRepository(DbFactory dbFactory) : base(dbFactory)
         {
-        }        
+        }
     }
 }

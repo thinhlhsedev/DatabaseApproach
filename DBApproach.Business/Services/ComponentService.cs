@@ -1,7 +1,6 @@
-﻿using DatabaseApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repository.Models;
 using DBApproach.Domain.Interfaces;
 using System.Linq;
-
 namespace DBApproach.Business.Services
 {
     public class ComponentService

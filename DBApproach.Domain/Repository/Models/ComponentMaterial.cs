@@ -12,8 +12,9 @@ namespace DBApproach.Domain.Repository.Models
         public string Id { get; set; }
         public string ComponentId { get; set; }
         public string MaterialId { get; set; }
+        public int? Amount { get; set; }
 
         public virtual Component Component { get; set; }
-        public virtual Matrial Material { get; set; }
+        public virtual Material Material { get; set; }
     }
 }

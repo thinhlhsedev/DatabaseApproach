@@ -7,9 +7,9 @@ using System.Collections.Generic;
 
 namespace DBApproach.Domain.Repository.Models
 {
-    public partial class Matrial
+    public partial class Material
     {
-        public Matrial()
+        public Material()
         {
             ComponentMaterial = new HashSet<ComponentMaterial>();
             ImportExportDetail = new HashSet<ImportExportDetail>();

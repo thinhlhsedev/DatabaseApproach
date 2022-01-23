@@ -6,9 +6,9 @@ using System.Linq.Expressions;
 
 namespace DBApproach.Infrastructure.Repositories
 {
-    public class ComponentRepository: Repository<Component>, IComponentRepository 
+    public class ProductComponentRepository : Repository<ProductComponent>, IProductComponentRepository
     {
-        public ComponentRepository(DbFactory dbFactory) : base(dbFactory)
+        public ProductComponentRepository(DbFactory dbFactory) : base(dbFactory)
         {
         }        
     }

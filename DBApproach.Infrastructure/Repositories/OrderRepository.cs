@@ -6,13 +6,13 @@ using System.Linq.Expressions;
 
 namespace DBApproach.Infrastructure.Repositories
 {
-    public class AttendanceRepository : Repository<Attendance>, IAttendanceRepository
+    public class OrderRepository : Repository<Order>, IOrderRepository
     {
-        public AttendanceRepository(DbFactory dbFactory) : base(dbFactory)
+        public OrderRepository(DbFactory dbFactory) : base(dbFactory)
         {
         }
 
-        public IQueryable<Attendance> GetAttendanceByAccount(Expression<Func<Attendance, bool>> expression)
+        public IQueryable<Order> GetOrderByAccount(Expression<Func<Order, bool>> expression)
         {
             return DbSet.Where(expression);
         }

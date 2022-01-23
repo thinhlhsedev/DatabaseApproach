@@ -27,7 +27,7 @@ namespace DBApproach.Domain.Repository
         public virtual DbSet<ComponentMaterial> ComponentMaterial { get; set; }
         public virtual DbSet<ImportExport> ImportExport { get; set; }
         public virtual DbSet<ImportExportDetail> ImportExportDetail { get; set; }
-        public virtual DbSet<Matrial> Matrial { get; set; }
+        public virtual DbSet<Material> Material { get; set; }
         public virtual DbSet<Order> Order { get; set; }
         public virtual DbSet<OrderDetail> OrderDetail { get; set; }
         public virtual DbSet<Process> Process { get; set; }
@@ -40,7 +40,6 @@ namespace DBApproach.Domain.Repository
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Data Source=ADMIN;Initial Catalog=GSP_DB_test;Persist Security Info=True;User ID=sa;Password=123456");
             }
         }
@@ -186,10 +185,8 @@ namespace DBApproach.Domain.Repository
                     .HasConstraintName("FK_ImportExportDetail_Matrial1");
             });
 
-            modelBuilder.Entity<Matrial>(entity =>
+            modelBuilder.Entity<Material>(entity =>
             {
-                entity.HasKey(e => e.MaterialId);
-
                 entity.Property(e => e.MaterialId).HasMaxLength(100);
 
                 entity.Property(e => e.ImageUrl).HasMaxLength(100);

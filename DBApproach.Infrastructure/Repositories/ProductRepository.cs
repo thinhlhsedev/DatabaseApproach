@@ -3,11 +3,10 @@ using DBApproach.Domain.Repository.Models;
 
 namespace DBApproach.Infrastructure.Repositories
 {
-    public class AccountRepository : Repository<Account>, IAccountRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
-        public AccountRepository(DbFactory dbFactory) : base(dbFactory)
+        public ProductRepository(DbFactory dbFactory) : base(dbFactory)
         {
         }
     }
-
 }

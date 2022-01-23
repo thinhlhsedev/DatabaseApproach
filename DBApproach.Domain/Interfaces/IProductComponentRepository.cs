@@ -2,7 +2,7 @@
 
 namespace DBApproach.Domain.Interfaces
 {
-    public interface IComponentRepository : IRepository<Component>
-    {        
+    public interface IProductComponentRepository : IRepository<ProductComponent>
+    {
     }
 }

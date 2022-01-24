@@ -12,9 +12,11 @@ namespace DBApproach.Infrastructure.Repositories
         {
         }
 
-        public IQueryable<Role> GetAttendanceByAccount(Expression<Func<Role, bool>> expression)
+        public IQueryable<Role> GetRoleByAccount(Expression<Func<Role, bool>> expression)
         {
             return DbSet.Where(expression);
         }
+
+        
     }
 }

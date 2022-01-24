@@ -18,7 +18,7 @@ namespace DatabaseApproach.Extensions
             services.AddDbContext<TestDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("TestDatabase"));
-            });
+            });           
 
             services.AddScoped<Func<TestDbContext>>((provider) => () => provider.GetService<TestDbContext>());
             services.AddScoped<DbFactory>();
@@ -48,7 +48,7 @@ namespace DatabaseApproach.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            //Add service
+            //Add Service
             return services.AddScoped<AccountService>()
                 .AddScoped<AttendanceService>()
                 .AddScoped<AttendanceDetailService>()
@@ -63,5 +63,21 @@ namespace DatabaseApproach.Extensions
                 .AddScoped<ComponentMaterialService>()
                 .AddScoped<ImportExportService>();
         }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
+        {
+            //Swagger
+            return services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1",
+                    new Microsoft.OpenApi.Models.OpenApiInfo
+                    {
+                        Title = "Swagger Demo API",
+                        Description = "Demo API for showing Swagger",
+                        Version = "v1"
+                    });
+            });
+        }
+
     }
 }

@@ -15,31 +15,19 @@ namespace DatabaseApproach
         }
 
         public IConfiguration Configuration { get; }
-        
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson(options =>
-                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
-        );
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
             //Add config from Extension
             services.AddDatabase(Configuration)
                 .AddRepositories()
-                .AddServices();
+                .AddServices()
+                .AddSwagger();           
+        }
 
-            //Swagger
-            services.AddSwaggerGen(options =>
-            {
-                options.SwaggerDoc("v1",
-                    new Microsoft.OpenApi.Models.OpenApiInfo
-                    {
-                        Title = "Swagger Demo API",
-                        Description = "Demo API for showing Swagger",
-                        Version = "v1"
-                    });                
-            });
-            }
-                
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -58,13 +46,19 @@ namespace DatabaseApproach
                 endpoints.MapControllers();
             });
 
-            ////Swagger
+            //Swagger
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
                 options.RoutePrefix = string.Empty;
             });
+
+            //app.UseGoogleAuthentication(new GoogleAuthenticationOptions()
+            //{
+            //    ClientId = "",
+            //    ClientSecret = ""
+            //}); 
         }
     }
 }

@@ -27,16 +27,8 @@ namespace DBApproach.Infrastructure
             _dbFactory.DbContext.SaveChangesAsync();
         }
 
-        public void Delete(string id)
+        public void Delete(T entity)
         {
-            var entity = _dbSet.Find(id);            
-            DeleteAsync(entity);
-            _dbFactory.DbContext.SaveChangesAsync();
-
-        }
-
-        public void DeleteAsync(T entity)
-        {            
             DbSet.Remove(entity);
             _dbFactory.DbContext.SaveChangesAsync();
         }
@@ -47,14 +39,14 @@ namespace DBApproach.Infrastructure
         }
 
         public void Update(T entity)
-        {            
+        {
             DbSet.Update(entity);
             _dbFactory.DbContext.SaveChangesAsync();
         }
 
         public T GetById(Expression<Func<T, bool>> expression)
         {
-            return (T)DbSet.Where(expression);
-        }        
+            return DbSet.FirstOrDefault(expression);
+        }
     }
 }

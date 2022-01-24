@@ -17,9 +17,9 @@ namespace DatabaseApproach.Controllers
             _accountService = accountService;
         }
 
-        // GET: getAccounts
+        // GET: getAllAccounts
         [HttpGet]
-        [Route("getAccounts")]
+        [Route("getAllAccounts")]
         public ActionResult<IQueryable<Account>> GetAllAccounts()
         {
             var data = _accountService.GetAllAccounts();
@@ -28,6 +28,32 @@ namespace DatabaseApproach.Controllers
                 return NotFound();
             }
             return Ok(data);
+        }
+
+        // GET: getAccountById
+        [HttpGet]
+        [Route("getAccountById/{accountId}")]
+        public ActionResult<Account> GetAllAccountById(string accountId)
+        {
+            var data = _accountService.GetAccountById(accountId);
+            if (data == null)
+            {
+                return NotFound("Not Found");
+            }
+            return Ok(data);
+        }
+
+        // DELETE: delAccount
+        [HttpDelete]
+        [Route("delAccounts/{accountId}")]
+        public ActionResult<bool> DelAccounts(string accountId)
+        {
+            var data = _accountService.DelAccount(accountId);
+            if (!data)
+            {
+                return NotFound("Delete Failed !");
+            }
+            return Ok("Delete Successfully !");
         }
 
         //private bool AccountExists(string id)

@@ -17,11 +17,48 @@ namespace DBApproach.Business.Services
             _attendanceRepository = attendanceRepository;
         }
 
-        public IQueryable<Attendance> GetAttendanceByAccount(string accountId)
+        public IQueryable<Attendance> GetAttendanceBySection(string accountId)
         {
-            IQueryable<Attendance> list = _attendanceRepository
-                .GetAttendanceByAccount(p => p.AccountId == accountId).Distinct();
-            return list;
+            var data = _attendanceRepository
+                .GetAttendanceBySection(p => p.AccountId == accountId).Distinct();
+            return data;
+        }
+
+        public Attendance GetAttendanceById(string attendanceId)
+        {
+            var data = _attendanceRepository
+                .GetById(p => p.AttendanceId == attendanceId);
+            return data;
+        }
+
+        public bool AddAttendance()
+        {
+            return false;
+        }
+
+        public Attendance UpdateAttendance(string attendanceId, Attendance newAttendance)
+        {
+
+            var data = _attendanceRepository.GetById(p => p.AttendanceId == attendanceId);
+            if (data != null)
+            {
+                newAttendance.AttendanceId = data.AttendanceId;
+                _attendanceRepository.Update(newAttendance);
+                return newAttendance;
+            }
+            return null;
+        }
+
+        public bool DelAttendance(string attendanceId)
+        {
+            var data = _attendanceRepository.GetById(p => p.AttendanceId == attendanceId);
+            if (data != null)
+            {
+                //data.Status = "Inactive";
+                _attendanceRepository.Update(data);
+                return true;
+            }
+            return false;
         }
     }
 }

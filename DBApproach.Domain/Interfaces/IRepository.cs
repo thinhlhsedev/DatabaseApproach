@@ -11,5 +11,6 @@ namespace DBApproach.Domain.Interfaces
         void Update(T entity);
         IQueryable<T> GetAll(Expression<Func<T, bool>> expression);
         T GetById(Expression<Func<T, bool>> expression);
+        T FindById(Expression<Func<T, bool>> expression);
     }
 }

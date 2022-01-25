@@ -1,6 +1,10 @@
-﻿using DBApproach.Business.Services;
+﻿using AutoMapper;
+using DatabaseApproach.Models.Request;
+using DatabaseApproach.Models.Response;
+using DBApproach.Business.Services;
 using DBApproach.Domain.Repository.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace DatabaseApproach.Controllers
@@ -9,11 +13,14 @@ namespace DatabaseApproach.Controllers
     public class OrderDetailController : ControllerBase
     {
         private readonly OrderDetailService _orderDetailService;
+        private readonly IMapper _mapper;
 
         public OrderDetailController(
-             OrderDetailService orderDetailService)
+             OrderDetailService orderDetailService,
+             IMapper mapper)
         {
             _orderDetailService = orderDetailService;
+            _mapper = mapper;
         }
 
         // GET: getOrderDetailOfs/ord/1
@@ -26,7 +33,49 @@ namespace DatabaseApproach.Controllers
             {
                 return NotFound();
             }
-            return Ok(data);
+            var list = _mapper.Map<IEnumerable<OrderResponse>>(data);
+            return Ok(list);
+        }
+
+        // GET: getOrderDetail/1
+        [HttpGet]
+        [Route("getOrderDetail/{orderDetailId}")]
+        public ActionResult<OrderDetailResponse> GetOrderDetailById(string orderDetailId)
+        {
+            var data = _orderDetailService.GetOrderDetailById(orderDetailId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var orderDetail = _mapper.Map<OrderDetailResponse>(data);
+            return Ok(orderDetail);
+        }
+
+        // PUT: UpdateOrderDetail/1
+        [HttpPut]
+        [Route("updateOrderDetail/{orderDetailId}")]
+        public ActionResult<OrderDetailResponse> UpdateOrderDetail(string orderDetailId, [FromBody] OrderDetailRequest newOrderDetail)
+        {
+            var data = _orderDetailService.UpdateOrderDetail(orderDetailId, _mapper.Map<OrderDetail>(newOrderDetail));
+            if (data == null)
+            {
+                return BadRequest("Update failed");
+            }
+            var orderDetail = _mapper.Map<OrderDetailResponse>(data);
+            return Ok(orderDetail);
+        }
+
+        // PUT: DelOrderDetail/1
+        [HttpPut]
+        [Route("delOrderDetail/{orderDetailId}")]
+        public ActionResult DelOrderDetail(string orderDetailId)
+        {
+            var data = _orderDetailService.DelOrderDetail(orderDetailId);
+            if (!data)
+            {
+                return BadRequest("Delete Failed");
+            }
+            return Ok("Delete Successfully");
         }
 
         //private bool AccountExists(string id)

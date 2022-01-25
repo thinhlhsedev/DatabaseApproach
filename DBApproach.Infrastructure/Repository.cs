@@ -8,7 +8,7 @@ namespace DBApproach.Infrastructure
 {
     public class Repository<T> : IRepository<T> where T : class
     {
-        private readonly DbFactory _dbFactory;
+        private DbFactory _dbFactory;
         private DbSet<T> _dbSet;
 
         protected DbSet<T> DbSet
@@ -40,13 +40,18 @@ namespace DBApproach.Infrastructure
 
         public void Update(T entity)
         {
-            DbSet.Update(entity);
+            DbSet.Update(entity);            
             _dbFactory.DbContext.SaveChangesAsync();
         }
 
         public T GetById(Expression<Func<T, bool>> expression)
         {
-            return DbSet.FirstOrDefault(expression);
+            return DbSet.Where(expression).FirstOrDefault();
+        }
+
+        public T FindById(Expression<Func<T, bool>> expression)
+        {
+            return DbSet.Where(expression).AsNoTracking().FirstOrDefault();
         }
     }
 }

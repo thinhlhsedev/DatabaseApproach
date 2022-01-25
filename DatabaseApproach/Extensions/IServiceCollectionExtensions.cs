@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
+using AutoMapper;
+using DatabaseApproach.Extensions.Profiles;
 
 namespace DatabaseApproach.Extensions
 {
@@ -77,6 +79,17 @@ namespace DatabaseApproach.Extensions
                         Version = "v1"
                     });
             });
+        }
+
+        public static IServiceCollection AddAutoMapper(this IServiceCollection services)
+        {
+            //AutoMapper
+            var mappingConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MapperProfile());                
+            });
+            IMapper mapper = mappingConfig.CreateMapper();
+            return services.AddSingleton(mapper);
         }
 
     }

@@ -12,7 +12,7 @@ namespace DBApproach.Infrastructure.Repositories
         {
         }
 
-        public IQueryable<Attendance> GetAttendanceByAccount(Expression<Func<Attendance, bool>> expression)
+        public IQueryable<Attendance> GetAttendanceBySection(Expression<Func<Attendance, bool>> expression)
         {
             return DbSet.Where(expression);
         }

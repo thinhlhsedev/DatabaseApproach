@@ -13,11 +13,47 @@ namespace DBApproach.Business.Services
             _importExportDetailRepository = importExportDetailRepository;
         }
 
-        public IQueryable<ImportExportDetail> GetDetailByImExId(string imExId)
+        public IQueryable<ImportExportDetail> GetImExDetailByImEx(string imExId)
         {
-            IQueryable<ImportExportDetail> list = _importExportDetailRepository
+            var data = _importExportDetailRepository
                 .GetDetailByImExId(p => p.ImportExportId == imExId);
-            return list;
+            return data;
+        }
+
+        public ImportExportDetail GetImExDetailById(string imExDetailId)
+        {
+            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
+            return data;
+        }
+
+        public bool AddImExDetail(ImportExportDetail imExDetail)
+        {
+            return false;
+        }
+
+        public ImportExportDetail UpdateImExDetail(string imExDetailId, ImportExportDetail newImExDetail)
+        {
+
+            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
+            if (data != null)
+            {
+                newImExDetail.ImportExportDetailId = data.ImportExportDetailId;
+                _importExportDetailRepository.Update(newImExDetail);
+                return newImExDetail;
+            }
+            return null;
+        }
+
+        public bool DelImExDetail(string imExDetailId)
+        {
+            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
+            if (data != null)
+            {
+                //data.Status = "Inactive";
+                _importExportDetailRepository.Update(data);
+                return true;
+            }
+            return false;
         }
     }
 }

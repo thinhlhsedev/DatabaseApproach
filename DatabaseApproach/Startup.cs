@@ -25,7 +25,8 @@ namespace DatabaseApproach
             services.AddDatabase(Configuration)
                 .AddRepositories()
                 .AddServices()
-                .AddSwagger();           
+                .AddSwagger()
+                .AddAutoMapper();           
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

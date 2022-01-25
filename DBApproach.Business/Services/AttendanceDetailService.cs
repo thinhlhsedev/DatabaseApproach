@@ -19,9 +19,45 @@ namespace DBApproach.Business.Services
 
         public IQueryable<AttendanceDetail> GetAttendanceDetailByAttendance(string attendanceId)
         {
-            IQueryable<AttendanceDetail> list = _attendanceDetailRepository
+            var data = _attendanceDetailRepository
                 .GetAttendanceDetailByAttendance(p => p.AttendanceId == attendanceId).Distinct();
-            return list;
+            return data;
+        }
+
+        public AttendanceDetail GetAttendanceDetailById(string attendanceDetailId)
+        {
+            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
+            return data;
+        }
+
+        public bool AddAttendanceDetail(AttendanceDetail attendanceDetail)
+        {
+            return false;
+        }
+
+        public AttendanceDetail UpdateAttendanceDetail(string attendanceDetailId, AttendanceDetail newAttendanceDetail)
+        {
+
+            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
+            if (data != null)
+            {
+                newAttendanceDetail.AttendanceDetailId = data.AttendanceDetailId;
+                _attendanceDetailRepository.Update(newAttendanceDetail);
+                return newAttendanceDetail;
+            }
+            return null;
+        }
+
+        public bool DelAttendanceDetail(string attendanceDetailId)
+        {
+            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
+            if (data != null)
+            {
+                //data.Status = "Inactive";
+                _attendanceDetailRepository.Update(data);
+                return true;
+            }
+            return false;
         }
     }
 }

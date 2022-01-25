@@ -7,6 +7,6 @@ namespace DBApproach.Domain.Interfaces
 {
     public interface IAttendanceRepository : IRepository<Attendance>
     {
-        IQueryable<Attendance> GetAttendanceByAccount(Expression<Func<Attendance, bool>> expression);
+        IQueryable<Attendance> GetAttendanceBySection(Expression<Func<Attendance, bool>> expression);
     }
 }

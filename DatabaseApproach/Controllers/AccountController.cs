@@ -2,6 +2,10 @@
 using DBApproach.Business.Services;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
+using AutoMapper;
+using DatabaseApproach.Models.Response;
+using System.Collections.Generic;
+using DatabaseApproach.Models.Request;
 
 namespace DatabaseApproach.Controllers
 {
@@ -10,48 +14,67 @@ namespace DatabaseApproach.Controllers
     {
 
         private readonly AccountService _accountService;
+        private readonly IMapper _mapper;
 
         public AccountController(
-            AccountService accountService)
+            AccountService accountService,
+            IMapper mapper)
         {
             _accountService = accountService;
+            _mapper = mapper;
         }
 
         // GET: getAllAccounts
         [HttpGet]
         [Route("getAllAccounts")]
-        public ActionResult<IQueryable<Account>> GetAllAccounts()
+        public ActionResult<IQueryable<AccountResponse>> GetAllAccounts()
         {
-            var data = _accountService.GetAllAccounts();
+            var data = _accountService.GetAllAccounts();            
             if (data == null)
             {
-                return NotFound();
+                return BadRequest("Not found");
             }
-            return Ok(data);
+            var list = _mapper.Map<IEnumerable<AccountResponse>>(data);
+            return Ok(list);
         }
 
-        // GET: getAccountById
+        // GET: GetAccount/1
         [HttpGet]
-        [Route("getAccountById/{accountId}")]
-        public ActionResult<Account> GetAllAccountById(string accountId)
+        [Route("getAccount/{accountId}")]
+        public ActionResult<AccountResponse> GetAccountById(string accountId)
         {
             var data = _accountService.GetAccountById(accountId);
             if (data == null)
             {
-                return NotFound("Not Found");
+                return BadRequest("Not Found");
             }
-            return Ok(data);
+            var account = _mapper.Map<AccountResponse>(data);
+            return Ok(account);
         }
 
-        // DELETE: delAccount
-        [HttpDelete]
-        [Route("delAccounts/{accountId}")]
-        public ActionResult<bool> DelAccounts(string accountId)
+        // PUT: UpdateAccount
+        [HttpPut]
+        [Route("updateccount/{accountId}")]
+        public ActionResult<AccountResponse> UpdateAccounts(string accountId, [FromBody]AccountRequest newAccount)
+        {            
+            var data = _accountService.UpdateAccount(accountId, _mapper.Map<Account>(newAccount));
+            if (data == null)
+            {
+                return BadRequest("Update Failed !");
+            }
+            var account = _mapper.Map<AccountResponse>(data);
+            return Ok(account);
+        }
+
+        // PUT: DelAccount
+        [HttpPut]
+        [Route("delAccount/{accountId}")]
+        public ActionResult DelAccount(string accountId)
         {
             var data = _accountService.DelAccount(accountId);
             if (!data)
             {
-                return NotFound("Delete Failed !");
+                return BadRequest("Delete Failed !");
             }
             return Ok("Delete Successfully !");
         }

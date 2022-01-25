@@ -17,8 +17,8 @@ namespace DBApproach.Business.Services
 
         public IQueryable<Account> GetAllAccounts()
         {
-            IQueryable<Account> list = _accountRepository.GetAll(p => p.AccountId != null);
-            return list;
+            var data = _accountRepository.GetAll(p => p.AccountId != null).Distinct();            
+            return data;
         }
 
         public Account GetAccountById(string accountId)
@@ -32,12 +32,25 @@ namespace DBApproach.Business.Services
             return false;
         }
 
+        public Account UpdateAccount(string accountId, Account newAccount)
+        {
+            var data = _accountRepository.FindById(p => p.AccountId == accountId);
+            if (data != null)
+            {
+                newAccount.AccountId = data.AccountId;
+                _accountRepository.Update(newAccount);
+                return newAccount;
+            }
+            return null;
+        }
+
         public bool DelAccount(string accountId)
         {
             var data = _accountRepository.GetById(p => p.AccountId == accountId);
             if (data != null)
             {
-                _accountRepository.Delete(data);
+                data.IsActive = false;
+                _accountRepository.Update(data);
                 return true;
             }
             return false;

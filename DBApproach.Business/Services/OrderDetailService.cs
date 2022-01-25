@@ -16,9 +16,45 @@ namespace DBApproach.Business.Services
 
         public IQueryable<OrderDetail> GetOrderDetailsByOrder(string orderId)
         {
-            IQueryable<OrderDetail> list = _orderDetailRepository
+            var data = _orderDetailRepository
                 .GetOrderDetailByOrder(p => p.OrderId == orderId).Distinct();
-            return list;
+            return data;
+        }
+
+        public OrderDetail GetOrderDetailById(string orderDetailId)
+        {
+            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
+            return data;
+        }
+
+        public bool AddOrderDetail(OrderDetail orderDetail)
+        {
+            return false;
+        }
+
+        public OrderDetail UpdateOrderDetail(string orderDetailId, OrderDetail newOrderDetail)
+        {
+
+            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
+            if (data != null)
+            {
+                newOrderDetail.OrderDetailId = data.OrderDetailId;
+                _orderDetailRepository.Update(newOrderDetail);
+                return newOrderDetail;
+            }
+            return null;
+        }
+
+        public bool DelOrderDetail(string orderDetailId)
+        {
+            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
+            if (data != null)
+            {
+                //data. = "Inactive";
+                _orderDetailRepository.Update(data);
+                return true;
+            }
+            return false;
         }
     }
 }

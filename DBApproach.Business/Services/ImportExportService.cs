@@ -13,18 +13,47 @@ namespace DBApproach.Business.Services
             _importExportRepository = importExportRepository;
         }
 
-        public IQueryable<ImportExport> GetImportBySection(string accountId)
+        public IQueryable<ImportExport> GetImExBySection(string accountId)
         {
-            IQueryable<ImportExport> list = _importExportRepository
-                .GetImportByAccount(p => p.AccountId == accountId && p.IsImport == true);
-            return list;
+            var data = _importExportRepository
+                .GetImportByAccount(p => p.AccountId == accountId).Distinct();
+            return data;
+        }       
+
+        public ImportExport GetImExtById(string imExId)
+        {
+            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
+            return data;
+        }        
+
+        public bool AddImEx(ImportExport imEx)
+        {
+            return false;
         }
 
-        public IQueryable<ImportExport> GetExportBySection(string accountId)
+        public ImportExport UpdateImEx(string imExId, ImportExport newImEx)
         {
-            IQueryable<ImportExport> list = _importExportRepository
-                .GetExportByAccount(p => p.AccountId == accountId && p.IsImport == false);
-            return list;
+
+            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
+            if (data != null)
+            {
+                newImEx.ImportExportId = data.ImportExportId;
+                _importExportRepository.Update(newImEx);
+                return newImEx;
+            }
+            return null;
+        }
+
+        public bool DelImEx(string imExId)
+        {
+            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
+            if (data != null)
+            {
+                data.IsAccepted = false;
+                _importExportRepository.Update(data);
+                return true;
+            }
+            return false;
         }
     }
 }

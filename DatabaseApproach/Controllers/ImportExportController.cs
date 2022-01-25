@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using DBApproach.Domain.Repository;
 using DBApproach.Domain.Repository.Models;
 using DBApproach.Business.Services;
+using DatabaseApproach.Models.Response;
+using AutoMapper;
+using DatabaseApproach.Models.Request;
 
 namespace DatabaseApproach.Controllers
 {
@@ -15,37 +18,69 @@ namespace DatabaseApproach.Controllers
     public class ImportExportController : ControllerBase
     {
         private readonly ImportExportService _importExportService;
+        private readonly IMapper _mapper;
 
         public ImportExportController(
-            ImportExportService importExportService)
+            ImportExportService importExportService,
+            IMapper mapper)
         {
             _importExportService = importExportService;
+            _mapper = mapper;
         }
 
-        // GET: getImportsOf/acc/1
+        // GET: getImExsOf/sec/1
         [HttpGet]
-        [Route("getImportsOf/acc/{accountId}")]
+        [Route("getImExsOf/sec/{accountId}")]
         public ActionResult<IQueryable<ImportExport>> GetImportBySection(string accountId)
         {
-            var data = _importExportService.GetImportBySection(accountId);
+            var data = _importExportService.GetImExBySection(accountId);
             if (data == null)
             {
                 return NotFound();
             }
-            return Ok(data); ;
+            var list = _mapper.Map<IEnumerable<ImportExportResponse>>(data);
+            return Ok(list);
         }
 
-        // GET: getExportsOf/acc/1
+        // GET: getImEx/1
         [HttpGet]
-        [Route("getExportsOf/acc/{accountId}")]
-        public ActionResult<IQueryable<Attendance>> GetExportBySection(string accountId)
+        [Route("getImEx/{imExId}")]
+        public ActionResult<ImportExportResponse> GetImExById(string imExId)
         {
-            var data = _importExportService.GetExportBySection(accountId);
+            var data = _importExportService.GetImExtById(imExId);
             if (data == null)
             {
-                return NotFound();
+                return BadRequest("Not found");
             }
-            return Ok(data); ;
+            var imEx = _mapper.Map<ImportExportResponse>(data);
+            return Ok(imEx);
+        }
+
+        // PUT: UpdateImEx/1
+        [HttpPut]
+        [Route("updateImEx/{imExId}")]
+        public ActionResult<ImportExportResponse> UpdateImEx(string imExId, [FromBody] ImportExportRequest newImEx)
+        {
+            var data = _importExportService.UpdateImEx(imExId, _mapper.Map<ImportExport>(newImEx));
+            if (data == null)
+            {
+                return BadRequest("Update failed");
+            }
+            var imEx = _mapper.Map<ImportExportResponse>(data);
+            return Ok(imEx);
+        }
+
+        // PUT: DelImEx/1
+        [HttpPut]
+        [Route("delImEx/{imExId}")]
+        public ActionResult DelImEx(string imExId)
+        {
+            var data = _importExportService.DelImEx(imExId);
+            if (!data)
+            {
+                return BadRequest("Delete Failed");
+            }
+            return Ok("Delete Successfully");
         }
 
         //private bool AttendanceExists(string id)

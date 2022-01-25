@@ -19,5 +19,41 @@ namespace DBApproach.Business.Services
             IQueryable<Process> list = _processRepository.GetAll(p => p.Status == "1");
             return list;
         }
+
+        public Process GetProcessById(string processId)
+        {
+            var data = _processRepository.GetById(p => p.ProcessId == processId);
+            return data;
+        }
+
+        public bool AddProcess(Process process)
+        {
+            return false;
+        }
+
+        public Process UpdateProcess(string processId, Process newProcess)
+        {
+
+            var data = _processRepository.GetById(p => p.ProcessId == processId);
+            if (data != null)
+            {
+                newProcess.ProcessId = data.ProcessId;
+                _processRepository.Update(newProcess);
+                return newProcess;
+            }
+            return null;
+        }
+
+        public bool DelProcess(string processId)
+        {
+            var data = _processRepository.GetById(p => p.ProcessId == processId);
+            if (data != null)
+            {
+                data.Status = "Inactive";
+                _processRepository.Update(data);
+                return true;
+            }
+            return false;
+        }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,11 +10,6 @@ namespace DBApproach.Infrastructure.Repositories
     {
         public OrderRepository(DbFactory dbFactory) : base(dbFactory)
         {
-        }
-
-        public IQueryable<Order> GetOrderByAccount(Expression<Func<Order, bool>> expression)
-        {
-            return DbSet.Where(expression);
-        }
+        }        
     }
 }

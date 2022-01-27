@@ -1,9 +1,10 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using DBApproach.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -17,47 +18,43 @@ namespace DBApproach.Business.Services
             _attendanceDetailRepository = attendanceDetailRepository;
         }
 
-        public IQueryable<AttendanceDetail> GetAttendanceDetailByAttendance(string attendanceId)
+        public async Task<List<AttendanceDetail>> GetAttendanceDetailByAttendance(string attendanceId)
         {
-            var data = _attendanceDetailRepository
-                .GetAttendanceDetailByAttendance(p => p.AttendanceId == attendanceId).Distinct();
-            return data;
+            return await _attendanceDetailRepository
+                .GetAttendanceDetailByAttendance(p => p.AttendanceId == attendanceId);            
         }
 
-        public AttendanceDetail GetAttendanceDetailById(string attendanceDetailId)
+        public async Task<AttendanceDetail> GetAttendanceDetailById(string attendanceDetailId)
         {
-            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
-            return data;
+            return await _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);            
         }
 
-        public bool AddAttendanceDetail(AttendanceDetail attendanceDetail)
+        public async Task<string> AddAttendanceDetail(AttendanceDetail attendanceDetail)
         {
-            return false;
+            return await _attendanceDetailRepository.Add(attendanceDetail);
         }
 
-        public AttendanceDetail UpdateAttendanceDetail(string attendanceDetailId, AttendanceDetail newAttendanceDetail)
+        public async Task<string> UpdateAttendanceDetail(string attendanceDetailId, AttendanceDetail newAttendanceDetail)
         {
 
-            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
+            var data = await _attendanceDetailRepository.FindById(p => p.AttendanceDetailId == attendanceDetailId);
             if (data != null)
             {
                 newAttendanceDetail.AttendanceDetailId = data.AttendanceDetailId;
-                _attendanceDetailRepository.Update(newAttendanceDetail);
-                return newAttendanceDetail;
+                await _attendanceDetailRepository.Update(newAttendanceDetail);                
             }
             return null;
         }
 
-        public bool DelAttendanceDetail(string attendanceDetailId)
+        public async Task<string> DelAttendanceDetail(string attendanceDetailId)
         {
-            var data = _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
+            var data = await _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
             if (data != null)
             {
                 //data.Status = "Inactive";
-                _attendanceDetailRepository.Update(data);
-                return true;
+                await _attendanceDetailRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

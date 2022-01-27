@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,47 +16,41 @@ namespace DBApproach.Business.Services
             _orderDetailRepository = orderDetailRepository;
         }
 
-        public IQueryable<OrderDetail> GetOrderDetailsByOrder(string orderId)
+        public async Task<List<OrderDetail>> GetOrderDetailsByOrder(string orderId)
         {
-            var data = _orderDetailRepository
-                .GetOrderDetailByOrder(p => p.OrderId == orderId).Distinct();
-            return data;
+            return await _orderDetailRepository.GetAll(p => p.OrderId == orderId);            
         }
 
-        public OrderDetail GetOrderDetailById(string orderDetailId)
+        public async Task<OrderDetail> GetOrderDetailById(string orderDetailId)
         {
-            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
-            return data;
+            return await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);           
         }
 
-        public bool AddOrderDetail(OrderDetail orderDetail)
+        public async Task<string> AddOrderDetail(OrderDetail orderDetail)
         {
-            return false;
+            return await _orderDetailRepository.Add(orderDetail);
         }
 
-        public OrderDetail UpdateOrderDetail(string orderDetailId, OrderDetail newOrderDetail)
+        public async Task<string> UpdateOrderDetail(string orderDetailId, OrderDetail newOrderDetail)
         {
-
-            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
+            var data = await _orderDetailRepository.FindById(p => p.OrderDetailId == orderDetailId);
             if (data != null)
             {
                 newOrderDetail.OrderDetailId = data.OrderDetailId;
-                _orderDetailRepository.Update(newOrderDetail);
-                return newOrderDetail;
+                await _orderDetailRepository.Update(newOrderDetail);                
             }
             return null;
         }
 
-        public bool DelOrderDetail(string orderDetailId)
+        public async Task<string> DelOrderDetail(string orderDetailId)
         {
-            var data = _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
+            var data = await _orderDetailRepository.GetById(p => p.OrderDetailId == orderDetailId);
             if (data != null)
             {
-                //data. = "Inactive";
-                _orderDetailRepository.Update(data);
-                return true;
+                //data.Status = "Inactive";
+                await _orderDetailRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

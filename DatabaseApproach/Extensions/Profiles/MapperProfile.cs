@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using DatabaseApproach.Models.Request;
 using DatabaseApproach.Models.Response;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
 
 namespace DatabaseApproach.Extensions.Profiles
 {
@@ -41,6 +41,9 @@ namespace DatabaseApproach.Extensions.Profiles
 
             CreateMap<ProcessRequest, Process>();
             CreateMap<Process, ProcessResponse>();
+
+            CreateMap<RoleRequest, Role>();
+            CreateMap<Role, RoleResponse>();
 
             CreateMap<SectionRequest, Section>();
             CreateMap<Section, SectionResponse>();

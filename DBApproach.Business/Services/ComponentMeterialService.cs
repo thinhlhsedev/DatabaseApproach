@@ -1,5 +1,5 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
 using System.Linq;
 
 namespace DBApproach.Business.Services
@@ -14,9 +14,9 @@ namespace DBApproach.Business.Services
             _componentMaterialRepository = componentMaterialRepository;
         }
 
-        public IQueryable<Role> CreateCompoMate()
+        public IQueryable<Role> AddCompoMate()
         {
-            //IQueryable<Role> list = _componentMaterialRepository
+            //List<Role> list = _componentMaterialRepository
             return null;
         }
     }

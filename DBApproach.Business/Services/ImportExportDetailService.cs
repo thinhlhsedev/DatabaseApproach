@@ -1,6 +1,8 @@
-﻿using DBApproach.Domain.Repository.Models;
-using DBApproach.Domain.Interfaces;
-using System.Linq;
+﻿using DBApproach.Domain.Interfaces;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace DBApproach.Business.Services
 {
     public class ImportExportDetailService
@@ -13,47 +15,41 @@ namespace DBApproach.Business.Services
             _importExportDetailRepository = importExportDetailRepository;
         }
 
-        public IQueryable<ImportExportDetail> GetImExDetailByImEx(string imExId)
+        public async Task<List<ImportExportDetail>> GetImExDetailByImEx(string imExId)
         {
-            var data = _importExportDetailRepository
-                .GetDetailByImExId(p => p.ImportExportId == imExId);
-            return data;
+            return await _importExportDetailRepository.GetAll(p => p.ImportExportId == imExId);            
         }
 
-        public ImportExportDetail GetImExDetailById(string imExDetailId)
+        public async Task<ImportExportDetail> GetImExDetailById(string imExDetailId)
         {
-            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
-            return data;
+            return await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);            
         }
 
-        public bool AddImExDetail(ImportExportDetail imExDetail)
+        public async Task<string> AddImExDetail(ImportExportDetail imExDetail)
         {
-            return false;
+            return await _importExportDetailRepository.Add(imExDetail);
         }
 
-        public ImportExportDetail UpdateImExDetail(string imExDetailId, ImportExportDetail newImExDetail)
+        public async Task<string> UpdateImExDetail(string imExDetailId, ImportExportDetail newImExDetail)
         {
-
-            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
+            var data = await _importExportDetailRepository.FindById(p => p.ImportExportDetailId == imExDetailId);
             if (data != null)
             {
                 newImExDetail.ImportExportDetailId = data.ImportExportDetailId;
-                _importExportDetailRepository.Update(newImExDetail);
-                return newImExDetail;
+                await _importExportDetailRepository.Update(newImExDetail);                
             }
             return null;
         }
 
-        public bool DelImExDetail(string imExDetailId)
+        public async Task<string> DelImExDetail(string imExDetailId)
         {
-            var data = _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
+            var data = await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
             if (data != null)
             {
                 //data.Status = "Inactive";
-                _importExportDetailRepository.Update(data);
-                return true;
+                await _importExportDetailRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

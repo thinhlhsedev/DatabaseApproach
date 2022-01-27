@@ -1,14 +1,12 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DBApproach.Domain.Interfaces
 {
     public interface IImportExportRepository : IRepository<ImportExport>
-    {
-        IQueryable<ImportExport> GetImportByAccount(Expression<Func<ImportExport, bool>> expression);
-
-        IQueryable<ImportExport> GetExportByAccount(Expression<Func<ImportExport, bool>> expression);
+    {        
     }
 }

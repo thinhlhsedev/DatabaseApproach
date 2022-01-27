@@ -1,4 +1,4 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 
 namespace DBApproach.Domain.Interfaces
 {

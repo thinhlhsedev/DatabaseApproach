@@ -40,6 +40,8 @@ namespace DatabaseApproach
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -53,13 +55,7 @@ namespace DatabaseApproach
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Demo API");
                 options.RoutePrefix = string.Empty;
-            });
-
-            //app.UseGoogleAuthentication(new GoogleAuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //}); 
+            });            
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using System.Text.Json.Serialization;
 
 namespace DatabaseApproach.Models.Request

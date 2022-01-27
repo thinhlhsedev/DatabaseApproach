@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,46 +16,41 @@ namespace DBApproach.Business.Services
             _productRepository = productRepository;
         }
 
-        public IQueryable<Product> GetAllProducts()
+        public async Task<List<Product>> GetAllProducts()
         {
-            IQueryable<Product> list = _productRepository.GetAll(p => p.Status == "1");
-            return list;
+           return await _productRepository.GetAll(p => p.Status == "1");            
         }
 
-        public Product GetProductById(string productId)
+        public async Task<Product> GetProductById(string productId)
         {
-            var data = _productRepository.GetById(p => p.ProductId == productId);
-            return data;
+            return await _productRepository.GetById(p => p.ProductId == productId);            
         }
 
-        public bool AddProduct(Product product)
+        public async Task<string> AddProduct(Product product)
         {
-            return false;
+            return await _productRepository.Add(product);
         }
 
-        public Product UpdateProduct(string productId, Product newProduct)
+        public async Task<string> UpdateProduct(string productId, Product newProduct)
         {
-
-            var data = _productRepository.GetById(p => p.ProductId == productId);
+            var data = await _productRepository.FindById(p => p.ProductId == productId);
             if (data != null)
             {
                 newProduct.ProductId = data.ProductId;
-                _productRepository.Update(newProduct);
-                return newProduct;
+                await _productRepository.Update(newProduct);                
             }
             return null;
         }
 
-        public bool DelProduct(string productId)
+        public async Task<string> DelProduct(string productId)
         {
-            var data = _productRepository.GetById(p => p.ProductId == productId);
+            var data = await _productRepository.GetById(p => p.ProductId == productId);
             if (data != null)
             {
                 data.Status = "Inactive";
-                _productRepository.Update(data);
-                return true;
+                await _productRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

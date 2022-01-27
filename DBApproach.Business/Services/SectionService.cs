@@ -1,6 +1,7 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -15,50 +16,46 @@ namespace DBApproach.Business.Services
         {
             _sectionRepository = sectionRepository;
             _accountRepository = accountRepository;
-            
+
         }
 
-        public int GetWorkerAmountBySectionId(string sectionId)
+        public async Task<int> GetWorkerAmountBySectionId(string sectionId)
         {
-            var section = _sectionRepository.GetById(p => p.AccountId == sectionId);                       
-            return (int)section.WorkerAmount;
+            var data = await _sectionRepository.GetById(p => p.AccountId == sectionId);
+            return (int)data.WorkerAmount;
+       }
+
+        public async Task<Section> GetSectionById(string sectionId)
+        {
+            return await _sectionRepository.GetById(p => p.AccountId == sectionId);            
         }
 
-        public Section GetSectionById(string sectionId)
+        public async Task<string> AddSection(Section section)
         {
-            var data = _sectionRepository.GetById(p => p.AccountId == sectionId);
-            return data;
+            return await _sectionRepository.Add(section);
         }
 
-        public bool AddSection(Section section)
-        {
-            return false;
-        }
-
-        public Section UpdateSection(string sectionId, Section newSection)
+        public async Task<string> UpdateSection(string sectionId, Section newSection)
         {
 
-            var data = _sectionRepository.GetById(p => p.AccountId == sectionId);
+            var data = await _sectionRepository.FindById(p => p.AccountId == sectionId);
             if (data != null)
             {
                 newSection.AccountId = data.AccountId;
-                _sectionRepository.Update(newSection);
-                return newSection;
+                await _sectionRepository.Update(newSection);                
             }
             return null;
         }
 
-        //public bool DelSection(string sectionId)
-        //{
-        //    var data = _sectionRepository.GetById(p => p.AccountId == sectionId);
-        //    if (data != null)
-        //    {
-        //        var sec = _accountRepository.GetById(p => p.AccountId == sectionId);
-        //        sec.IsActive = false;
-        //        _accountRepository.Update(sec);                
-        //        return true;
-        //    }
-        //    return false;
-        //}
+        public async Task<string> DelSection(string sectionId)
+        {
+            var data = await _sectionRepository.GetById(p => p.AccountId == sectionId);
+            if (data != null)
+            {                
+                //data.Status = false;
+                await _sectionRepository.Update(data);                
+            }
+            return null;
+        }
     }
 }

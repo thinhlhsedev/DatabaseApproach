@@ -1,0 +1,108 @@
+﻿using AutoMapper;
+using DatabaseApproach.Models.Request;
+using DatabaseApproach.Models.Response;
+using DBApproach.Business.Services;
+using DBApproach.Domain.Repositories.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace DatabaseApproach.Controllers.ModelControllers
+{
+    [ApiController]
+    public class AttendanceController : ControllerBase
+    {
+        private readonly AttendanceService _attendanceService;
+        private readonly IMapper _mapper;
+
+        public AttendanceController(
+            AttendanceService attendanceService,
+            IMapper mapper)
+        {
+            _attendanceService = attendanceService;
+            _mapper = mapper;
+        }
+
+        // GET: GetAttendancesOf/sec/1
+        [HttpGet]
+        [Route("getAttendancesOf/sec/{accountId}")]
+        public async Task<ActionResult<List<AttendanceResponse>>> GetAttendanceBySection(string accountId)
+        {
+            var data = await _attendanceService.GetAttendanceBySection(accountId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var list = _mapper.Map<List<AttendanceResponse>>(data);
+            return Ok(list);
+        }
+
+        // GET: GetAttendance/1
+        [HttpGet]
+        [Route("getAttendance/{attendanceId}")]
+        public async Task<ActionResult<AttendanceResponse>> GetAttendanceById(string attendanceId)
+        {
+            var data = await _attendanceService.GetAttendanceById(attendanceId);
+            if (data == null)
+            {
+                return BadRequest("Not found");
+            }
+            var attendance = _mapper.Map<AttendanceResponse>(data);
+            return Ok(attendance);
+        }
+
+        // POST: AddAttendance/[attendance]
+        [HttpPost]
+        [Route("addAttendance")]
+        public async Task<ActionResult> AddAttendance([FromBody] AttendanceRequest attendanceRequest)
+        {
+            var data = await _attendanceService.AddAttendance(_mapper.Map<Attendance>(attendanceRequest));
+            if (data == null)
+            {
+                return BadRequest("Not Found");
+            }
+            return Ok("Add successfully");
+        }
+
+        // PUT: UpdateAttendance/1
+        [HttpPut]
+        [Route("updateAttendance/{attendanceId}")]
+        public async Task<ActionResult> UpdateAttendance(string attendanceId, [FromBody] AttendanceRequest attendanceRequest)
+        {
+            var data = await _attendanceService.UpdateAttendance(attendanceId, _mapper.Map<Attendance>(attendanceRequest));
+            if (data.Equals(null))
+            {
+                return BadRequest("Not found");
+            }
+            else if (data.Equals("true"))
+            {
+                return Ok("Update Successfully");
+            }
+            return BadRequest(data);
+        }
+
+
+        // PUT: DelAttendance/1
+        [HttpPut]
+        [Route("delAttendance/{attendanceId}")]
+        public async Task<ActionResult> DelAttendance(string attendanceId)
+        {
+            var data = await _attendanceService.DelAttendance(attendanceId);
+            if (data.Equals(null))
+            {
+                return BadRequest("Not found");
+            }
+            else if (data.Equals("true"))
+            {
+                return Ok("Delete Successfully");
+            }
+            return BadRequest(data);
+        }
+
+        //private bool AttendanceExists(string id)
+        //{
+        //    return _context.Attendance.Any(e => e.AttendanceId == id);
+        //}
+    }
+}

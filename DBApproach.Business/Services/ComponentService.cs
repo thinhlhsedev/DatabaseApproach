@@ -1,58 +1,57 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using DBApproach.Domain.Interfaces;
 using System.Linq;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace DBApproach.Business.Services
 {
     public class ComponentService
-    {        
+    {
         private readonly IComponentRepository _componentRepository;
 
-        public ComponentService(            
+        public ComponentService(
             IComponentRepository componentRepository)
-        {            
+        {
             _componentRepository = componentRepository;
         }
 
-        public IQueryable<Component> GetAllComponents()
-        {            
-            var data = _componentRepository.GetAll(p => p.Status == "1").Distinct();
-            return data;
+        public async Task<List<Component>> GetAllComponents()
+        {
+            return await _componentRepository.GetAll(p => p.Status == "1");
         }
 
-        public Component GetComponentById(string componentId)
+        public async Task<Component> GetComponentById(string componentId)
         {
-            var data = _componentRepository.GetById(p => p.ComponentId == componentId);
-            return data;
+            return await _componentRepository.GetById(p => p.ComponentId == componentId);
         }
 
-        public bool AddMaterial(Material material)
+        public async Task<string> AddComponent(Component component)
         {
-            return false;
+            return await _componentRepository.Add(component);
         }
 
-        public Component UpdateComponent(string componentId, Component newComponent)
+        public async Task<string> UpdateComponent(string componentId, Component newComponent)
         {
 
-            var data = _componentRepository.GetById(p => p.ComponentId == componentId);
+            var data = await _componentRepository.FindById(p => p.ComponentId == componentId);
             if (data != null)
             {
                 newComponent.ComponentId = data.ComponentId;
-                _componentRepository.Update(newComponent);
-                return newComponent;
+                await _componentRepository.Update(newComponent);                
             }
             return null;
         }
 
-        public bool DelComponent(string componentId)
+        public async Task<string> DelComponent(string componentId)
         {
-            var data = _componentRepository.GetById(p => p.ComponentId == componentId);
+            var data = await _componentRepository.GetById(p => p.ComponentId == componentId);
             if (data != null)
             {
                 data.Status = "Inactive";
-                _componentRepository.Update(data);
-                return true;
+                await _componentRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

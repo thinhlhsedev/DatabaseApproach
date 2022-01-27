@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,46 +16,41 @@ namespace DBApproach.Business.Services
             _processRepository = processRepository;
         }
 
-        public IQueryable<Process> GetAllProcesses()
+        public async Task<List<Process>> GetAllProcesses()
         {
-            IQueryable<Process> list = _processRepository.GetAll(p => p.Status == "1");
-            return list;
+            return await _processRepository.GetAll(p => p.Status == "1");            
         }
 
-        public Process GetProcessById(string processId)
+        public async Task<Process> GetProcessById(string processId)
         {
-            var data = _processRepository.GetById(p => p.ProcessId == processId);
-            return data;
+            return await _processRepository.GetById(p => p.ProcessId == processId);            
         }
 
-        public bool AddProcess(Process process)
+        public async Task<string> AddProcess(Process process)
         {
-            return false;
+            return await _processRepository.Add(process);
         }
 
-        public Process UpdateProcess(string processId, Process newProcess)
+        public async Task<string> UpdateProcess(string processId, Process newProcess)
         {
-
-            var data = _processRepository.GetById(p => p.ProcessId == processId);
+            var data = await _processRepository.FindById(p => p.ProcessId == processId);
             if (data != null)
             {
                 newProcess.ProcessId = data.ProcessId;
-                _processRepository.Update(newProcess);
-                return newProcess;
+                await _processRepository.Update(newProcess);                
             }
             return null;
         }
 
-        public bool DelProcess(string processId)
+        public async Task<string> DelProcess(string processId)
         {
-            var data = _processRepository.GetById(p => p.ProcessId == processId);
+            var data = await _processRepository.GetById(p => p.ProcessId == processId);
             if (data != null)
             {
                 data.Status = "Inactive";
-                _processRepository.Update(data);
-                return true;
+                await _processRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

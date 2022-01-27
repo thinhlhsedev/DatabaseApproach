@@ -1,4 +1,4 @@
-﻿using DBApproach.Domain.Repository;
+﻿using DBApproach.Domain.Repositories;
 using DBApproach.Business.Services;
 using DBApproach.Domain.Interfaces;
 using DBApproach.Infrastructure;
@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using AutoMapper;
 using DatabaseApproach.Extensions.Profiles;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace DatabaseApproach.Extensions
 {
@@ -20,7 +23,7 @@ namespace DatabaseApproach.Extensions
             services.AddDbContext<TestDbContext>(options =>
             {
                 options.UseSqlServer(configuration.GetConnectionString("TestDatabase"));
-            });           
+            });
 
             services.AddScoped<Func<TestDbContext>>((provider) => () => provider.GetService<TestDbContext>());
             services.AddScoped<DbFactory>();
@@ -86,10 +89,35 @@ namespace DatabaseApproach.Extensions
             //AutoMapper
             var mappingConfig = new MapperConfiguration(mc =>
             {
-                mc.AddProfile(new MapperProfile());                
+                mc.AddProfile(new MapperProfile());
             });
             IMapper mapper = mappingConfig.CreateMapper();
             return services.AddSingleton(mapper);
+        }
+
+        public static IServiceCollection AddJWT(this IServiceCollection services, IConfiguration configuration)
+        {
+            //JWT
+            return (IServiceCollection)services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = configuration.GetSection("validIssuer").Value,
+                    ValidAudience = configuration.GetSection("validAudience").Value,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisIsGSP"))
+                };
+            });
+
         }
 
     }

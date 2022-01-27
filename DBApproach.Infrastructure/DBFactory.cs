@@ -1,4 +1,4 @@
-﻿using DBApproach.Domain.Repository;
+﻿using DBApproach.Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

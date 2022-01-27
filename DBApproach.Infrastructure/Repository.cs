@@ -1,8 +1,10 @@
 ﻿using DBApproach.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace DBApproach.Infrastructure
 {
@@ -21,37 +23,65 @@ namespace DBApproach.Infrastructure
             _dbFactory = dbFactory;
         }
 
-        public void Add(T entity)
+        public async Task<string> Add(T entity)
         {
-            DbSet.AddAsync(entity);
-            _dbFactory.DbContext.SaveChangesAsync();
+            try
+            {
+                await DbSet.AddAsync(entity);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return e.Message.ToString();
+            }
         }
 
-        public void Delete(T entity)
+        public async Task<string> Delete(T entity)
         {
-            DbSet.Remove(entity);
-            _dbFactory.DbContext.SaveChangesAsync();
+            try
+            {
+                DbSet.Remove(entity);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return e.Message.ToString();
+            }
         }
 
-        public IQueryable<T> GetAll(Expression<Func<T, bool>> expression)
+        public async Task<string> Update(T entity)
         {
-            return DbSet.Where(expression);
+            try
+            {
+                DbSet.Update(entity);
+                await _dbFactory.DbContext.SaveChangesAsync();
+                return "true";
+            }
+            catch (Exception e)
+            {
+                await _dbFactory.DbContext.DisposeAsync();
+                return e.Message.ToString();
+            }
         }
 
-        public void Update(T entity)
+        public async Task<List<T>> GetAll(Expression<Func<T, bool>> expression)
         {
-            DbSet.Update(entity);            
-            _dbFactory.DbContext.SaveChangesAsync();
+            var data = await DbSet.Where(expression).ToListAsync();
+            return data;
         }
 
-        public T GetById(Expression<Func<T, bool>> expression)
+        public async Task<T> GetById(Expression<Func<T, bool>> expression)
         {
-            return DbSet.Where(expression).FirstOrDefault();
+            return await DbSet.Where(expression).FirstOrDefaultAsync();
         }
 
-        public T FindById(Expression<Func<T, bool>> expression)
+        public async Task<T> FindById(Expression<Func<T, bool>> expression)
         {
-            return DbSet.Where(expression).AsNoTracking().FirstOrDefault();
+            return await DbSet.Where(expression).AsNoTracking().FirstOrDefaultAsync();
         }
     }
 }

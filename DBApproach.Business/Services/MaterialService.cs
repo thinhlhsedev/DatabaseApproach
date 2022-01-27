@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,46 +16,41 @@ namespace DBApproach.Business.Services
             _materialRepository = materialRepository;
         }
 
-        public IQueryable<Material> GetAllMaterials()
+        public async Task<List<Material>> GetAllMaterials()
         {
-            var data = _materialRepository.GetAll(p => p.Status == "1").Distinct();
-            return data;
+            return await _materialRepository.GetAll(p => p.Status == "1");            
         }
 
-        public Material GetMaterialById(string materialId)
+        public async Task<Material> GetMaterialById(string materialId)
         {
-            var data = _materialRepository.GetById(p => p.MaterialId == materialId);
-            return data;
+            return await _materialRepository.GetById(p => p.MaterialId == materialId);            
         }
 
-        public bool AddMaterial(Material material)
+        public async Task<string> AddMaterial(Material material)
         {            
-            return false;
+            return await _materialRepository.Add(material);
         }
 
-        public Material UpdateMaterial(string materialId, Material newMaterial)
+        public async Task<string> UpdateMaterial(string materialId, Material newMaterial)
         {
-
-            var data = _materialRepository.GetById(p => p.MaterialId == materialId);
+            var data = await _materialRepository.FindById(p => p.MaterialId == materialId);
             if (data != null)
             {
                 newMaterial.MaterialId = data.MaterialId;
-                _materialRepository.Update(newMaterial);
-                return newMaterial;
+                await _materialRepository.Update(newMaterial);                
             }
             return null;
         }
 
-        public bool DelMaterial(string materialId)
+        public async Task<string> DelMaterial(string materialId)
         {
-            var data = _materialRepository.GetById(p => p.MaterialId == materialId);
+            var data = await _materialRepository.GetById(p => p.MaterialId == materialId);
             if (data != null)
             {
                 data.Status = "Inactive";
-                _materialRepository.Update(data);
-                return true;
+                await _materialRepository.Update(data);                
             }
-            return false;
+            return null;
         }
     }
 }

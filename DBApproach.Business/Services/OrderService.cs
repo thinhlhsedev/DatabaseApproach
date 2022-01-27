@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,46 +16,42 @@ namespace DBApproach.Business.Services
             _orderRepository = orderRepository;
         }
 
-        public IQueryable<Order> GetOrderByAccount(string accountId)
+        public async Task<List<Order>> GetOrderByAccount(string accountId)
         {
-            var data = _orderRepository.GetOrderByAccount(p => p.AccountId == accountId).Distinct();
-            return data;
+            return await _orderRepository.GetAll(p => p.AccountId == accountId);
         }
 
-        public Order GetOrderById(string orderId)
+        public async Task<Order> GetOrderById(string orderId)
         {
-            var data = _orderRepository.GetById(p => p.OrderId == orderId);
-            return data;
+            return await _orderRepository.GetById(p => p.OrderId == orderId);
         }
 
-        public bool AddOrder(Order order)
+        public async Task<string> AddOrder(Order order)
         {
-            return false;
+            return await _orderRepository.Add(order);
         }
 
-        public Order UpdateOrder(string orderId, Order newOrder)
+        public async Task<string> UpdateOrder(string orderId, Order newOrder)
         {
 
-            var data = _orderRepository.GetById(p => p.OrderId == orderId);
+            var data = await _orderRepository.FindById(p => p.OrderId == orderId);
             if (data != null)
             {
                 newOrder.OrderId = data.OrderId;
-                _orderRepository.Update(newOrder);
-                return newOrder;
+                await _orderRepository.Update(newOrder);                
             }
             return null;
         }
 
-        public bool DelOrder(string orderId)
+        public async Task<string> DelOrder(string orderId)
         {
-            var data = _orderRepository.GetById(p => p.OrderId == orderId);
+            var data = await _orderRepository.GetById(p => p.OrderId == orderId);
             if (data != null)
             {
                 data.Status = "Inactive";
-                _orderRepository.Update(data);
-                return true;
+                await _orderRepository.Update(data);                
             }
-            return false;
+            return null;
         }
 
     }

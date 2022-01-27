@@ -1,6 +1,9 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using DBApproach.Domain.Interfaces;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+
 namespace DBApproach.Business.Services
 {
     public class ImportExportService
@@ -13,47 +16,42 @@ namespace DBApproach.Business.Services
             _importExportRepository = importExportRepository;
         }
 
-        public IQueryable<ImportExport> GetImExBySection(string accountId)
+        public async Task<List<ImportExport>> GetImExBySection(string accountId)
         {
-            var data = _importExportRepository
-                .GetImportByAccount(p => p.AccountId == accountId).Distinct();
-            return data;
-        }       
-
-        public ImportExport GetImExtById(string imExId)
-        {
-            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
-            return data;
-        }        
-
-        public bool AddImEx(ImportExport imEx)
-        {
-            return false;
+            return await _importExportRepository.GetAll(p => p.AccountId == accountId);
         }
 
-        public ImportExport UpdateImEx(string imExId, ImportExport newImEx)
+        public async Task<ImportExport> GetImExtById(string imExId)
+        {
+            return await _importExportRepository.GetById(p => p.ImportExportId == imExId);
+        }
+
+        public async Task<string> AddImEx(ImportExport imEx)
+        {
+            return await _importExportRepository.Add(imEx);
+        }
+
+        public async Task<string> UpdateImEx(string imExId, ImportExport newImEx)
         {
 
-            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
+            var data = await _importExportRepository.FindById(p => p.ImportExportId == imExId);
             if (data != null)
             {
                 newImEx.ImportExportId = data.ImportExportId;
-                _importExportRepository.Update(newImEx);
-                return newImEx;
+                await _importExportRepository.Update(newImEx);
             }
             return null;
         }
 
-        public bool DelImEx(string imExId)
+        public async Task<string> DelImEx(string imExId)
         {
-            var data = _importExportRepository.GetById(p => p.ImportExportId == imExId);
+            var data = await _importExportRepository.GetById(p => p.ImportExportId == imExId);
             if (data != null)
             {
                 data.IsAccepted = false;
-                _importExportRepository.Update(data);
-                return true;
+                await _importExportRepository.Update(data);
             }
-            return false;
+            return null;
         }
     }
 }

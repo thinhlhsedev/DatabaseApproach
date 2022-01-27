@@ -1,4 +1,4 @@
-﻿using DBApproach.Domain.Repository.Models;
+﻿using DBApproach.Domain.Repositories.Models;
 using System;
 using System.Collections.Generic;
 using System.Text.Json.Serialization;
@@ -28,5 +28,6 @@ namespace DatabaseApproach.Models.Request
         public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<Order> Order { get; set; }
-    }
+    }    
+
 }

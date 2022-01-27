@@ -1,5 +1,5 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
 using System;
 using System.Linq;
 using System.Linq.Expressions;

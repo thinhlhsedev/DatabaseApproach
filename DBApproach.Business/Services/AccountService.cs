@@ -1,7 +1,7 @@
-﻿using DBApproach.Domain.Repository.Models;
-using DBApproach.Domain.Interfaces;
-using System.Linq;
-using System;
+﻿using DBApproach.Domain.Interfaces;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -15,45 +15,47 @@ namespace DBApproach.Business.Services
             _accountRepository = accountRepository;
         }
 
-        public IQueryable<Account> GetAllAccounts()
+        public async Task<List<Account>> GetAllAccounts()
         {
-            var data = _accountRepository.GetAll(p => p.AccountId != null).Distinct();            
-            return data;
+            return await _accountRepository.GetAll(p => p.AccountId != null);
         }
 
-        public Account GetAccountById(string accountId)
+        public async Task<Account> GetAccountById(string accountId)
         {
-            var data = _accountRepository.GetById(p => p.AccountId == accountId);
-            return data;
+            return await _accountRepository.GetById(p => p.AccountId == accountId);
         }
 
-        public bool AddAccount()
+        public async Task<Account> GetAccountByEmail(string email)
         {
-            return false;
+            return await _accountRepository.GetById(p => p.Email == email);
         }
 
-        public Account UpdateAccount(string accountId, Account newAccount)
+        public async Task<string> AddAccount(Account account)
         {
-            var data = _accountRepository.FindById(p => p.AccountId == accountId);
+            return await _accountRepository.Add(account);
+        }
+
+        public async Task<string> UpdateAccount(string accountId, Account newAccount)
+        {
+            var data = await _accountRepository.FindById(p => p.AccountId == accountId);
             if (data != null)
             {
                 newAccount.AccountId = data.AccountId;
-                _accountRepository.Update(newAccount);
-                return newAccount;
+                await _accountRepository.Update(newAccount);
             }
             return null;
         }
 
-        public bool DelAccount(string accountId)
+        public async Task<string> DelAccount(string accountId)
         {
-            var data = _accountRepository.GetById(p => p.AccountId == accountId);
+            var data = await _accountRepository.GetById(p => p.AccountId == accountId);
             if (data != null)
             {
-                data.IsActive = false;
-                _accountRepository.Update(data);
-                return true;
+                Account delAccount = data;
+                delAccount.IsActive = false;
+                await _accountRepository.Update(delAccount);
             }
-            return false;
+            return null;
         }
     }
 }

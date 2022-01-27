@@ -1,6 +1,8 @@
 ﻿using DBApproach.Domain.Interfaces;
-using DBApproach.Domain.Repository.Models;
+using DBApproach.Domain.Repositories.Models;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace DBApproach.Business.Services
 {
@@ -14,10 +16,36 @@ namespace DBApproach.Business.Services
             _roleRepository = roleRepository;
         }
 
-        public IQueryable<Role> GetAllRoles()
+        public async Task<List<Role>> GetAllRoles()
         {
-            IQueryable<Role> list = _roleRepository.GetAll(p => p.Status == "1");
-            return list;
+            return await _roleRepository.GetAll(p => p.Status == "1");            
+        }
+
+        public async Task<string> AddRole(Role role)
+        {
+            return await _roleRepository.Add(role);
+        }
+
+        public async Task<string> UpdateRole(string roleId, Role newRole)
+        {
+            var data = await _roleRepository.FindById(p => p.RoleId == roleId);
+            if (data != null)
+            {
+                newRole.RoleId = data.RoleId;
+                await _roleRepository.Update(newRole);
+            }
+            return null;
+        }
+
+        public async Task<string> DelRole(string roleId)
+        {
+            var data = await _roleRepository.GetById(p => p.RoleId == roleId);
+            if (data != null)
+            {                
+                //data.IsActive = false;
+                await _roleRepository.Update(data);
+            }
+            return null;
         }
     }
 }

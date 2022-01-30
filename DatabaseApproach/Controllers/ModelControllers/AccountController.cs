@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
 
         // GET: GetAccount/1
         [HttpGet]
-        [Route("getAccount/{accountId}")]
+        [Route("getAccountById/{accountId}")]
         public async Task<ActionResult<AccountResponse>> GetAccountById(string accountId)
         {
             var data = await _accountService.GetAccountById(accountId);
@@ -55,7 +55,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
 
         // GET: GetAccount/xxx@gmail.com
         [HttpGet]
-        [Route("getAccount/{email}")]
+        [Route("getAccountByEmail/{email}")]
         public async Task<ActionResult<AccountResponse>> GetAccountByEmail(string email)
         {
             var data = await _accountService.GetAccountByEmail(email);

@@ -114,7 +114,8 @@ namespace DatabaseApproach.Extensions
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = configuration.GetSection("validIssuer").Value,
                     ValidAudience = configuration.GetSection("validAudience").Value,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ThisIsGSP"))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+                    .GetBytes(configuration.GetSection("JWTSettings:securityKey").Value))
                 };
             });
 

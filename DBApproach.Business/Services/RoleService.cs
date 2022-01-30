@@ -21,6 +21,11 @@ namespace DBApproach.Business.Services
             return await _roleRepository.GetAll(p => p.Status == "1");            
         }
 
+        public async Task<Role> GetRoleByAccount(Account account)
+        {
+            return await _roleRepository.GetById(p => p.RoleId == account.RoleId);
+        }
+
         public async Task<string> AddRole(Role role)
         {
             return await _roleRepository.Add(role);

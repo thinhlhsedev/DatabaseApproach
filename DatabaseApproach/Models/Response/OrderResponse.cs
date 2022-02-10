@@ -7,8 +7,8 @@ namespace DatabaseApproach.Models.Response
 {
     public class OrderResponse
     {
-        public string OrderId { get; set; }
-        public string AccountId { get; set; }
+        public int OrderId { get; set; }
+        public int? AccountId { get; set; }
         public double? TotalPrice { get; set; }
         public DateTime? Deadline { get; set; }
         public string Status { get; set; }

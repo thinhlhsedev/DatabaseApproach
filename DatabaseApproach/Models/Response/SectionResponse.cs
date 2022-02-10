@@ -6,20 +6,20 @@ namespace DatabaseApproach.Models.Response
 {
     public class SectionResponse
     {
-        public string AccountId { get; set; }
+        public int SectionId { get; set; }
+        public int? SectionLeadId { get; set; }
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
+        public string InstructionFilePath { get; set; }
 
 
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual Account Account { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual Component Component { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<Attendance> Attendance { get; set; }
+        public virtual Account SectionLead { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ImportExport> ImportExport { get; set; }
+        public virtual ICollection<Account> Account { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<Process> Process { get; set; }
     }

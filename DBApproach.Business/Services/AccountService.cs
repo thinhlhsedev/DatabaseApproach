@@ -20,7 +20,7 @@ namespace DBApproach.Business.Services
             return await _accountRepository.GetAll(p => p.AccountId != 0);
         }
 
-        public async Task<Account> GetAccountById(string accountId)
+        public async Task<Account> GetAccountById(int accountId)
         {
             return await _accountRepository.GetById(p => p.AccountId == accountId);
         }
@@ -35,7 +35,7 @@ namespace DBApproach.Business.Services
             return await _accountRepository.Add(account);
         }
 
-        public async Task<string> UpdateAccount(string accountId, Account newAccount)
+        public async Task<string> UpdateAccount(int accountId, Account newAccount)
         {
             var data = await _accountRepository.FindById(p => p.AccountId == accountId);
             if (data != null)
@@ -46,7 +46,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelAccount(string accountId)
+        public async Task<string> DelAccount(int accountId)
         {
             var data = await _accountRepository.GetById(p => p.AccountId == accountId);
             if (data != null)

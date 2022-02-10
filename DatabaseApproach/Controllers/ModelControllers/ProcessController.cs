@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getProcess/1
         [HttpGet]
         [Route("getProcess/{processId}")]
-        public async Task<ActionResult<ProcessResponse>> GetProcessById(string processId)
+        public async Task<ActionResult<ProcessResponse>> GetProcessById(int processId)
         {
             var data = await _processService.GetProcessById(processId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateProcess/1
         [HttpPut]
         [Route("updateProcess/{processId}")]
-        public async Task<ActionResult> UpdateProcess(string processId, [FromBody] ProcessRequest newProcess)
+        public async Task<ActionResult> UpdateProcess(int processId, [FromBody] ProcessRequest newProcess)
         {
             var data = await _processService.UpdateProcess(processId, _mapper.Map<Process>(newProcess));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelProcess/1
         [HttpPut]
         [Route("delProcess/{processId}")]
-        public async Task<ActionResult> DelProcess(string processId)
+        public async Task<ActionResult> DelProcess(int processId)
         {
             var data = await _processService.DelProcess(processId);
             if (data.Equals(null))

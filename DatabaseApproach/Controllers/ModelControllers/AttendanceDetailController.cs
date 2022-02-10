@@ -27,7 +27,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getAttendancesOf/atd/1
         [HttpGet]
         [Route("getAttendancesOf/atd/{attendanceId}")]
-        public async Task<ActionResult<List<AttendanceDetailResponse>>> GetAttendanceDetailByAttendance(string attendanceId)
+        public async Task<ActionResult<List<AttendanceDetailResponse>>> GetAttendanceDetailByAttendance(int attendanceId)
         {
             var data = await _attendanceDetailService.GetAttendanceDetailByAttendance(attendanceId);
             if (data == null)
@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getAttendanceDetail/1
         [HttpGet]
         [Route("getAttendanceDetail/{attendanceDetailId}")]
-        public async Task<ActionResult<AttendanceDetailResponse>> GetAttendanceDetailById(string attendanceDetailId)
+        public async Task<ActionResult<AttendanceDetailResponse>> GetAttendanceDetailById(int attendanceDetailId)
         {
             var data = await _attendanceDetailService.GetAttendanceDetailById(attendanceDetailId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateAttendanceDetail/1
         [HttpPut]
         [Route("updateAttendanceDetail/{attendanceDetailId}")]
-        public async Task<ActionResult<AttendanceDetailResponse>> UpdateAttendanceDetail(string attendanceDetailId, [FromBody] AttendanceDetailRequest attendanceDetailRequest)
+        public async Task<ActionResult<AttendanceDetailResponse>> UpdateAttendanceDetail(int attendanceDetailId, [FromBody] AttendanceDetailRequest attendanceDetailRequest)
         {
             var data = await _attendanceDetailService.UpdateAttendanceDetail(attendanceDetailId, _mapper.Map<AttendanceDetail>(attendanceDetailRequest));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelAttendanceDetail/1
         [HttpPut]
         [Route("delAttendanceDetail/{attendanceDetailId}")]
-        public async Task<ActionResult> DelAttendanceDetail(string attendanceDetailId)
+        public async Task<ActionResult> DelAttendanceDetail(int attendanceDetailId)
         {
             var data = await _attendanceDetailService.DelAttendanceDetail(attendanceDetailId);
             if (data.Equals(null))

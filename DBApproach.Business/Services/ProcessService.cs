@@ -21,7 +21,7 @@ namespace DBApproach.Business.Services
             return await _processRepository.GetAll(p => p.Status == "1");            
         }
 
-        public async Task<Process> GetProcessById(string processId)
+        public async Task<Process> GetProcessById(int processId)
         {
             return await _processRepository.GetById(p => p.ProcessId == processId);            
         }
@@ -31,7 +31,7 @@ namespace DBApproach.Business.Services
             return await _processRepository.Add(process);
         }
 
-        public async Task<string> UpdateProcess(string processId, Process newProcess)
+        public async Task<string> UpdateProcess(int processId, Process newProcess)
         {
             var data = await _processRepository.FindById(p => p.ProcessId == processId);
             if (data != null)
@@ -42,7 +42,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelProcess(string processId)
+        public async Task<string> DelProcess(int processId)
         {
             var data = await _processRepository.GetById(p => p.ProcessId == processId);
             if (data != null)

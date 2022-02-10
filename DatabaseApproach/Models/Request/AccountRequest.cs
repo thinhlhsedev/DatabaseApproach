@@ -7,16 +7,17 @@ namespace DatabaseApproach.Models.Request
 {
     public class AccountRequest
     {
-        public string AccountId { get; set; }
+        public int AccountId { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
         public string Name { get; set; }
-        public int? Gender { get; set; }
+        public bool? Gender { get; set; }
         public DateTime? DateOfBirth { get; set; }
         public string Address { get; set; }
         public string Phone { get; set; }
         public string AvatarUrl { get; set; }
         public string RoleId { get; set; }
+        public int? SectionId { get; set; }
         public bool? IsActive { get; set; }
 
 
@@ -27,7 +28,12 @@ namespace DatabaseApproach.Models.Request
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public virtual ICollection<ImportExport> ImportExport { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public virtual ICollection<Order> Order { get; set; }
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+        public virtual ICollection<Section> SectionNavigation { get; set; }        
+       
     }    
 
 }

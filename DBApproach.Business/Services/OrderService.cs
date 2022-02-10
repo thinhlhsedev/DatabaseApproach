@@ -16,12 +16,12 @@ namespace DBApproach.Business.Services
             _orderRepository = orderRepository;
         }
 
-        public async Task<List<Order>> GetOrderByAccount(string accountId)
+        public async Task<List<Order>> GetOrderByAccount(int accountId)
         {
             return await _orderRepository.GetAll(p => p.AccountId == accountId);
         }
 
-        public async Task<Order> GetOrderById(string orderId)
+        public async Task<Order> GetOrderById(int orderId)
         {
             return await _orderRepository.GetById(p => p.OrderId == orderId);
         }
@@ -31,7 +31,7 @@ namespace DBApproach.Business.Services
             return await _orderRepository.Add(order);
         }
 
-        public async Task<string> UpdateOrder(string orderId, Order newOrder)
+        public async Task<string> UpdateOrder(int orderId, Order newOrder)
         {
 
             var data = await _orderRepository.FindById(p => p.OrderId == orderId);
@@ -43,7 +43,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelOrder(string orderId)
+        public async Task<string> DelOrder(int orderId)
         {
             var data = await _orderRepository.GetById(p => p.OrderId == orderId);
             if (data != null)

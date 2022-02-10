@@ -16,15 +16,9 @@ namespace DBApproach.Business.Services
             IAttendanceRepository attendanceRepository)
         {
             _attendanceRepository = attendanceRepository;
-        }
+        }        
 
-        public async Task<List<Attendance>> GetAttendanceBySection(string accountId)
-        {
-            return await _attendanceRepository
-                .GetAttendanceBySection(p => p.AccountId == accountId);            
-        }
-
-        public async Task<Attendance> GetAttendanceById(string attendanceId)
+        public async Task<Attendance> GetAttendanceById(int attendanceId)
         {
             return await _attendanceRepository.GetById(p => p.AttendanceId == attendanceId);            
         }
@@ -34,7 +28,7 @@ namespace DBApproach.Business.Services
             return await _attendanceRepository.Add(attendance);
         }
 
-        public async Task<string> UpdateAttendance(string attendanceId, Attendance newAttendance)
+        public async Task<string> UpdateAttendance(int attendanceId, Attendance newAttendance)
         {
 
             var data = await _attendanceRepository.FindById(p => p.AttendanceId == attendanceId);
@@ -46,7 +40,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelAttendance(string attendanceId)
+        public async Task<string> DelAttendance(int attendanceId)
         {
             var data = await _attendanceRepository.GetById(p => p.AttendanceId == attendanceId);
             if (data != null)

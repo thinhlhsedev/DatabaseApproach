@@ -19,15 +19,15 @@ namespace DBApproach.Business.Services
 
         }
 
-        public async Task<int> GetWorkerAmountBySectionId(string sectionId)
+        public async Task<int> GetWorkerAmountBySectionId(int sectionId)
         {
-            var data = await _sectionRepository.GetById(p => p.AccountId == sectionId);
+            var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
             return (int)data.WorkerAmount;
        }
 
-        public async Task<Section> GetSectionById(string sectionId)
+        public async Task<Section> GetSectionById(int sectionId)
         {
-            return await _sectionRepository.GetById(p => p.AccountId == sectionId);            
+            return await _sectionRepository.GetById(p => p.SectionId == sectionId);            
         }
 
         public async Task<string> AddSection(Section section)
@@ -35,21 +35,21 @@ namespace DBApproach.Business.Services
             return await _sectionRepository.Add(section);
         }
 
-        public async Task<string> UpdateSection(string sectionId, Section newSection)
+        public async Task<string> UpdateSection(int sectionId, Section newSection)
         {
 
-            var data = await _sectionRepository.FindById(p => p.AccountId == sectionId);
+            var data = await _sectionRepository.FindById(p => p.SectionId == sectionId);
             if (data != null)
             {
-                newSection.AccountId = data.AccountId;
+                newSection.SectionId = data.SectionId;
                 await _sectionRepository.Update(newSection);                
             }
             return null;
         }
 
-        public async Task<string> DelSection(string sectionId)
+        public async Task<string> DelSection(int sectionId)
         {
-            var data = await _sectionRepository.GetById(p => p.AccountId == sectionId);
+            var data = await _sectionRepository.GetById(p => p.SectionId == sectionId);
             if (data != null)
             {                
                 //data.Status = false;

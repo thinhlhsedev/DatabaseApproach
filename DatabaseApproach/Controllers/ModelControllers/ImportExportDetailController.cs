@@ -27,7 +27,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getDetailsOf/ImEx/1
         [HttpGet]
         [Route("getDetailsOf/ImEx/{imExId}")]
-        public async Task<ActionResult<List<ImportExportDetailResponse>>> GetImExDetailByImEx(string imExId)
+        public async Task<ActionResult<List<ImportExportDetailResponse>>> GetImExDetailByImEx(int imExId)
         {
             var data = await _importExportDetailService.GetImExDetailByImEx(imExId);
             if (data == null)
@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getImportExportDetail/1
         [HttpGet]
         [Route("getImportExportDetail/{imExDetailId}")]
-        public async Task<ActionResult<ImportExportDetailResponse>> GetImportExportDetailById(string imExDetailId)
+        public async Task<ActionResult<ImportExportDetailResponse>> GetImportExportDetailById(int imExDetailId)
         {
             var data = await _importExportDetailService.GetImExDetailById(imExDetailId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateImportExportDetail/1
         [HttpPut]
         [Route("updateImportExportDetail/{imExDetailId}")]
-        public async Task<ActionResult> UpdateImportExportDetail(string imExDetailId, [FromBody] ImportExportDetailRequest importExportDetailRequest)
+        public async Task<ActionResult> UpdateImportExportDetail(int imExDetailId, [FromBody] ImportExportDetailRequest importExportDetailRequest)
         {
             var data = await _importExportDetailService.UpdateImExDetail(imExDetailId, _mapper.Map<ImportExportDetail>(importExportDetailRequest));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelImportExportDetail/1
         [HttpPut]
         [Route("delImportExportDetail/{imExDetailId}")]
-        public async Task<ActionResult> DelImportExportDetail(string imExDetailId)
+        public async Task<ActionResult> DelImportExportDetail(int imExDetailId)
         {
             var data = await _importExportDetailService.DelImExDetail(imExDetailId);
             if (data.Equals(null))

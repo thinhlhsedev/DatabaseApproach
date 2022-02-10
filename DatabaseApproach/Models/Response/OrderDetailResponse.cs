@@ -6,8 +6,8 @@ namespace DatabaseApproach.Models.Response
 {
     public class OrderDetailResponse
     {
-        public string OrderDetailId { get; set; }
-        public string OrderId { get; set; }
+        public int OrderDetailId { get; set; }
+        public int? OrderId { get; set; }
         public string ProductId { get; set; }
         public int? Amount { get; set; }
         public double? Price { get; set; }

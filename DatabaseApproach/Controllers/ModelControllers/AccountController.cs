@@ -42,7 +42,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: GetAccount/1
         [HttpGet]
         [Route("getAccountById/{accountId}")]
-        public async Task<ActionResult<AccountResponse>> GetAccountById(string accountId)
+        public async Task<ActionResult<AccountResponse>> GetAccountById(int accountId)
         {
             var data = await _accountService.GetAccountById(accountId);
             if (data == null)
@@ -83,7 +83,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateAccount
         [HttpPut]
         [Route("updateAccount/{accountId}")]
-        public async Task<ActionResult> UpdateAccount(string accountId, [FromBody]AccountRequest accountRequest)
+        public async Task<ActionResult> UpdateAccount(int accountId, [FromBody]AccountRequest accountRequest)
         {            
             var data = await _accountService.UpdateAccount(accountId, _mapper.Map<Account>(accountRequest));
             if (data.Equals(null))
@@ -100,7 +100,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelAccount
         [HttpPut]
         [Route("delAccount/{accountId}")]
-        public async Task<ActionResult> DelAccount(string accountId)
+        public async Task<ActionResult> DelAccount(int accountId)
         {
             var data = await _accountService.DelAccount(accountId);
             if (data.Equals(null))

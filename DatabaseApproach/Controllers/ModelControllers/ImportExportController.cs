@@ -27,7 +27,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getImExsOf/sec/1
         [HttpGet]
         [Route("getImExsOf/sec/{accountId}")]
-        public async Task<ActionResult<List<ImportExportResponse>>> GetImExBySection(string accountId)
+        public async Task<ActionResult<List<ImportExportResponse>>> GetImExBySection(int accountId)
         {
             var data = await _importExportService.GetImExBySection(accountId);
             if (data == null)
@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getImEx/1
         [HttpGet]
         [Route("getImEx/{imExId}")]
-        public async Task<ActionResult<ImportExportResponse>> GetImExById(string imExId)
+        public async Task<ActionResult<ImportExportResponse>> GetImExById(int imExId)
         {
             var data = await _importExportService.GetImExtById(imExId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateImEx/1
         [HttpPut]
         [Route("updateImEx/{imExId}")]
-        public async Task<ActionResult> UpdateImEx(string imExId, [FromBody] ImportExportRequest importExportRequest)
+        public async Task<ActionResult> UpdateImEx(int imExId, [FromBody] ImportExportRequest importExportRequest)
         {
             var data = await _importExportService.UpdateImEx(imExId, _mapper.Map<ImportExport>(importExportRequest));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelImEx/1
         [HttpPut]
         [Route("delImEx/{imExId}")]
-        public async Task<ActionResult> DelImEx(string imExId)
+        public async Task<ActionResult> DelImEx(int imExId)
         {
             var data = await _importExportService.DelImEx(imExId);
             if (data.Equals(null))

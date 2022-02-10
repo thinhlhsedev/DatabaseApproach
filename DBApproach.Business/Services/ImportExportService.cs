@@ -16,12 +16,12 @@ namespace DBApproach.Business.Services
             _importExportRepository = importExportRepository;
         }
 
-        public async Task<List<ImportExport>> GetImExBySection(string accountId)
+        public async Task<List<ImportExport>> GetImExBySection(int accountId)
         {
             return await _importExportRepository.GetAll(p => p.AccountId == accountId);
         }
 
-        public async Task<ImportExport> GetImExtById(string imExId)
+        public async Task<ImportExport> GetImExtById(int imExId)
         {
             return await _importExportRepository.GetById(p => p.ImportExportId == imExId);
         }
@@ -31,7 +31,7 @@ namespace DBApproach.Business.Services
             return await _importExportRepository.Add(imEx);
         }
 
-        public async Task<string> UpdateImEx(string imExId, ImportExport newImEx)
+        public async Task<string> UpdateImEx(int imExId, ImportExport newImEx)
         {
 
             var data = await _importExportRepository.FindById(p => p.ImportExportId == imExId);
@@ -43,7 +43,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelImEx(string imExId)
+        public async Task<string> DelImEx(int imExId)
         {
             var data = await _importExportRepository.GetById(p => p.ImportExportId == imExId);
             if (data != null)

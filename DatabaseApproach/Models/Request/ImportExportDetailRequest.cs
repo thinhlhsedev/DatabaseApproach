@@ -5,10 +5,10 @@ namespace DatabaseApproach.Models.Request
 {
     public class ImportExportDetailRequest
     {
-        public string ImportExportDetailId { get; set; }
-        public string ImportExportId { get; set; }
+        public int ImportExportDetailId { get; set; }
+        public int? ImportExportId { get; set; }
         public string ItemId { get; set; }
-        public int? Amount { get; set; }
+        public int? Amount { get; set; }        
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

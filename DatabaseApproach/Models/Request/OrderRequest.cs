@@ -7,12 +7,12 @@ namespace DatabaseApproach.Models.Request
 {
     public class OrderRequest
     {
-        public string OrderId { get; set; }
-        public string AccountId { get; set; }
+        public int OrderId { get; set; }
+        public int? AccountId { get; set; }
         public double? TotalPrice { get; set; }
         public DateTime? Deadline { get; set; }
         public string Status { get; set; }
-        public string Note { get; set; }
+        public string Note { get; set; }        
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]

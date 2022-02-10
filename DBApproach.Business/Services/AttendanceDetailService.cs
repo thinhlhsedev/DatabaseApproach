@@ -18,13 +18,13 @@ namespace DBApproach.Business.Services
             _attendanceDetailRepository = attendanceDetailRepository;
         }
 
-        public async Task<List<AttendanceDetail>> GetAttendanceDetailByAttendance(string attendanceId)
+        public async Task<List<AttendanceDetail>> GetAttendanceDetailByAttendance(int attendanceId)
         {
             return await _attendanceDetailRepository
                 .GetAttendanceDetailByAttendance(p => p.AttendanceId == attendanceId);            
         }
 
-        public async Task<AttendanceDetail> GetAttendanceDetailById(string attendanceDetailId)
+        public async Task<AttendanceDetail> GetAttendanceDetailById(int attendanceDetailId)
         {
             return await _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);            
         }
@@ -34,7 +34,7 @@ namespace DBApproach.Business.Services
             return await _attendanceDetailRepository.Add(attendanceDetail);
         }
 
-        public async Task<string> UpdateAttendanceDetail(string attendanceDetailId, AttendanceDetail newAttendanceDetail)
+        public async Task<string> UpdateAttendanceDetail(int attendanceDetailId, AttendanceDetail newAttendanceDetail)
         {
 
             var data = await _attendanceDetailRepository.FindById(p => p.AttendanceDetailId == attendanceDetailId);
@@ -46,7 +46,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelAttendanceDetail(string attendanceDetailId)
+        public async Task<string> DelAttendanceDetail(int attendanceDetailId)
         {
             var data = await _attendanceDetailRepository.GetById(p => p.AttendanceDetailId == attendanceDetailId);
             if (data != null)

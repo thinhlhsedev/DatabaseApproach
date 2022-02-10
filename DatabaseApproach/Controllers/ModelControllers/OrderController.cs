@@ -27,7 +27,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getOrdersOf/acc/1
         [HttpGet]
         [Route("getOrdersOf/acc/{accountId}")]
-        public async Task<ActionResult<List<OrderResponse>>> GetAllOrders(string accountId)
+        public async Task<ActionResult<List<OrderResponse>>> GetAllOrders(int accountId)
         {
             var data = await _orderService.GetOrderByAccount(accountId);
             if (data == null)
@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getOrder/1
         [HttpGet]
         [Route("getOrder/{orderId}")]
-        public async Task<ActionResult<OrderResponse>> GetOrderById(string orderId)
+        public async Task<ActionResult<OrderResponse>> GetOrderById(int orderId)
         {
             var data = await _orderService.GetOrderById(orderId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateOrder/1
         [HttpPut]
         [Route("updateOrder/{orderId}")]
-        public async Task<ActionResult> UpdateOrder(string orderId, [FromBody] OrderRequest orderRequest)
+        public async Task<ActionResult> UpdateOrder(int orderId, [FromBody] OrderRequest orderRequest)
         {
             var data = await _orderService.UpdateOrder(orderId, _mapper.Map<Order>(orderRequest));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelOrder/1
         [HttpPut]
         [Route("delOrder/{orderId}")]
-        public async Task<ActionResult> DelrOder(string orderId)
+        public async Task<ActionResult> DelrOder(int orderId)
         {
             var data = await _orderService.DelOrder(orderId);
             if (data.Equals(null))

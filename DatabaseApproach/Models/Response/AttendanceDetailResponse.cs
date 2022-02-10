@@ -1,15 +1,14 @@
 ﻿using DBApproach.Domain.Repositories.Models;
-using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
 namespace DatabaseApproach.Models.Response
 {
     public class AttendanceDetailResponse
     {
-        public string AttendanceDetailId { get; set; }
-        public string AttendanceId { get; set; }
-        public string AccountId { get; set; }
-        public int? IsPresented { get; set; }
+        public int AttendanceDetailId { get; set; }
+        public int? AttendanceId { get; set; }
+        public int? AccountId { get; set; }
+        public bool? IsPresented { get; set; }
         public string Note { get; set; }
 
 

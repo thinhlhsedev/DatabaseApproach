@@ -15,12 +15,12 @@ namespace DBApproach.Business.Services
             _importExportDetailRepository = importExportDetailRepository;
         }
 
-        public async Task<List<ImportExportDetail>> GetImExDetailByImEx(string imExId)
+        public async Task<List<ImportExportDetail>> GetImExDetailByImEx(int imExId)
         {
             return await _importExportDetailRepository.GetAll(p => p.ImportExportId == imExId);            
         }
 
-        public async Task<ImportExportDetail> GetImExDetailById(string imExDetailId)
+        public async Task<ImportExportDetail> GetImExDetailById(int imExDetailId)
         {
             return await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);            
         }
@@ -30,7 +30,7 @@ namespace DBApproach.Business.Services
             return await _importExportDetailRepository.Add(imExDetail);
         }
 
-        public async Task<string> UpdateImExDetail(string imExDetailId, ImportExportDetail newImExDetail)
+        public async Task<string> UpdateImExDetail(int imExDetailId, ImportExportDetail newImExDetail)
         {
             var data = await _importExportDetailRepository.FindById(p => p.ImportExportDetailId == imExDetailId);
             if (data != null)
@@ -41,7 +41,7 @@ namespace DBApproach.Business.Services
             return null;
         }
 
-        public async Task<string> DelImExDetail(string imExDetailId)
+        public async Task<string> DelImExDetail(int imExDetailId)
         {
             var data = await _importExportDetailRepository.GetById(p => p.ImportExportDetailId == imExDetailId);
             if (data != null)

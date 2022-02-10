@@ -27,7 +27,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getOrderDetailOfs/ord/1
         [HttpGet]
         [Route("getOrderDetailsOf/ord/{orderId}")]
-        public async Task<ActionResult<List<OrderResponse>>> GetAllOrders(string orderId)
+        public async Task<ActionResult<List<OrderResponse>>> GetAllOrders(int orderId)
         {
             var data = await _orderDetailService.GetOrderDetailsByOrder(orderId);
             if (data == null)
@@ -41,7 +41,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getOrderDetail/1
         [HttpGet]
         [Route("getOrderDetail/{orderDetailId}")]
-        public async Task<ActionResult<OrderDetailResponse>> GetOrderDetailById(string orderDetailId)
+        public async Task<ActionResult<OrderDetailResponse>> GetOrderDetailById(int orderDetailId)
         {
             var data = await _orderDetailService.GetOrderDetailById(orderDetailId);
             if (data == null)
@@ -68,7 +68,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateOrderDetail/1
         [HttpPut]
         [Route("updateOrderDetail/{orderDetailId}")]
-        public async Task<ActionResult> UpdateOrderDetail(string orderDetailId, [FromBody] OrderDetailRequest orderDetailRequest)
+        public async Task<ActionResult> UpdateOrderDetail(int orderDetailId, [FromBody] OrderDetailRequest orderDetailRequest)
         {
             var data = await _orderDetailService.UpdateOrderDetail(orderDetailId, _mapper.Map<OrderDetail>(orderDetailRequest));
             if (data.Equals(null))
@@ -85,7 +85,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelOrderDetail/1
         [HttpPut]
         [Route("delOrderDetail/{orderDetailId}")]
-        public async Task<ActionResult> DelOrderDetail(string orderDetailId)
+        public async Task<ActionResult> DelOrderDetail(int orderDetailId)
         {
             var data = await _orderDetailService.DelOrderDetail(orderDetailId);
             if (data.Equals(null))

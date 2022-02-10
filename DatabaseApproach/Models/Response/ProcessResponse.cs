@@ -1,22 +1,26 @@
 ﻿using DBApproach.Domain.Repositories.Models;
-using System.Collections.Generic;
+using System;
 using System.Text.Json.Serialization;
 
 namespace DatabaseApproach.Models.Response
 {
     public class ProcessResponse
     {
-        public string MaterialId { get; set; }
-        public string MaterialName { get; set; }
+        public int ProcessId { get; set; }
+        public int? OrderDetailId { get; set; }
+        public int? SectionId { get; set; }
+        public int? ManufacturingId { get; set; }
+        public DateTime? CreatedDate { get; set; }
+        public DateTime? FinishedDate { get; set; }
+        public DateTime? ExpiryDate { get; set; }
         public int? Amount { get; set; }
-        public string ImageUrl { get; set; }
-        public int? Unit { get; set; }
+        public int? FinishedAmount { get; set; }
         public string Status { get; set; }
 
 
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }
+        public virtual OrderDetail OrderDetail { get; set; }
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
-        public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
+        public virtual Section Section { get; set; }
     }
 }

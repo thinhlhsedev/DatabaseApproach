@@ -22,26 +22,12 @@ namespace DatabaseApproach.Controllers.ModelControllers
         {
             _attendanceService = attendanceService;
             _mapper = mapper;
-        }
-
-        // GET: GetAttendancesOf/sec/1
-        [HttpGet]
-        [Route("getAttendancesOf/sec/{accountId}")]
-        public async Task<ActionResult<List<AttendanceResponse>>> GetAttendanceBySection(string accountId)
-        {
-            var data = await _attendanceService.GetAttendanceBySection(accountId);
-            if (data == null)
-            {
-                return BadRequest("Not found");
-            }
-            var list = _mapper.Map<List<AttendanceResponse>>(data);
-            return Ok(list);
-        }
+        }        
 
         // GET: GetAttendance/1
         [HttpGet]
         [Route("getAttendance/{attendanceId}")]
-        public async Task<ActionResult<AttendanceResponse>> GetAttendanceById(string attendanceId)
+        public async Task<ActionResult<AttendanceResponse>> GetAttendanceById(int attendanceId)
         {
             var data = await _attendanceService.GetAttendanceById(attendanceId);
             if (data == null)
@@ -68,7 +54,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateAttendance/1
         [HttpPut]
         [Route("updateAttendance/{attendanceId}")]
-        public async Task<ActionResult> UpdateAttendance(string attendanceId, [FromBody] AttendanceRequest attendanceRequest)
+        public async Task<ActionResult> UpdateAttendance(int attendanceId, [FromBody] AttendanceRequest attendanceRequest)
         {
             var data = await _attendanceService.UpdateAttendance(attendanceId, _mapper.Map<Attendance>(attendanceRequest));
             if (data.Equals(null))
@@ -86,7 +72,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelAttendance/1
         [HttpPut]
         [Route("delAttendance/{attendanceId}")]
-        public async Task<ActionResult> DelAttendance(string attendanceId)
+        public async Task<ActionResult> DelAttendance(int attendanceId)
         {
             var data = await _attendanceService.DelAttendance(attendanceId);
             if (data.Equals(null))

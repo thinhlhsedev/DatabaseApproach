@@ -26,7 +26,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getWorkerAmounts/sec/1
         [HttpGet]
         [Route("getWorkerAmounts/sec/{accountId}")]
-        public async Task<ActionResult<int>> GetWorkerAmountBySectionId(string accountId)
+        public async Task<ActionResult<int>> GetWorkerAmountBySectionId(int accountId)
         {
             var data = await _sectionService.GetWorkerAmountBySectionId(accountId);            
             return Ok(data);
@@ -35,7 +35,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // GET: getSectionById/1
         [HttpGet]
         [Route("getSectionById/{accountId}")]
-        public async Task<ActionResult<SectionResponse>> GetSectionById(string accountId)
+        public async Task<ActionResult<SectionResponse>> GetSectionById(int accountId)
         {
             var data = await _sectionService.GetSectionById(accountId);
             if (data == null)
@@ -62,7 +62,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: UpdateSection/1
         [HttpPut]
         [Route("updateSection/{accountId}")]
-        public async Task<ActionResult> UpdateSection(string accountId, [FromBody] SectionRequest newSection)
+        public async Task<ActionResult> UpdateSection(int accountId, [FromBody] SectionRequest newSection)
         {
             var data = await _sectionService.UpdateSection(accountId, _mapper.Map<Section>(newSection));
             if (data.Equals(null))
@@ -79,7 +79,7 @@ namespace DatabaseApproach.Controllers.ModelControllers
         // PUT: DelSection
         [HttpPut]
         [Route("delSection/{sectionId}")]
-        public async Task<ActionResult> DelSection(string sectionId)
+        public async Task<ActionResult> DelSection(int sectionId)
         {
             var data = await _sectionService.DelSection(sectionId);
             if (data.Equals(null))

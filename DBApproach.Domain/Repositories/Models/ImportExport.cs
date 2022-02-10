@@ -14,14 +14,15 @@ namespace DBApproach.Domain.Repositories.Models
             ImportExportDetail = new HashSet<ImportExportDetail>();
         }
 
-        public string ImportExportId { get; set; }
-        public string AccountId { get; set; }
+        public int ImportExportId { get; set; }
+        public int? AccountId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public string ItemType { get; set; }
         public bool? IsImport { get; set; }
         public bool? IsAccepted { get; set; }
 
-        public virtual Section Account { get; set; }
+        public virtual Account Account { get; set; }
+        public virtual Types ItemTypeNavigation { get; set; }
         public virtual ICollection<ImportExportDetail> ImportExportDetail { get; set; }
     }
 }

@@ -9,10 +9,10 @@ namespace DBApproach.Domain.Repositories.Models
 {
     public partial class Process
     {
-        public string ProcessId { get; set; }
-        public string OrderDetailId { get; set; }
-        public string SectionId { get; set; }
-        public string ManufacturingId { get; set; }
+        public int ProcessId { get; set; }
+        public int? OrderDetailId { get; set; }
+        public int? SectionId { get; set; }
+        public int? ManufacturingId { get; set; }
         public DateTime? CreatedDate { get; set; }
         public DateTime? FinishedDate { get; set; }
         public DateTime? ExpiryDate { get; set; }

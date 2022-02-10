@@ -14,13 +14,11 @@ namespace DBApproach.Domain.Repositories.Models
             AttendanceDetail = new HashSet<AttendanceDetail>();
         }
 
-        public string AttendanceId { get; set; }
-        public string AccountId { get; set; }
+        public int AttendanceId { get; set; }
         public DateTime? CheckDate { get; set; }
         public int? PresentedAmount { get; set; }
         public string Note { get; set; }
 
-        public virtual Section Account { get; set; }
         public virtual ICollection<AttendanceDetail> AttendanceDetail { get; set; }
     }
 }

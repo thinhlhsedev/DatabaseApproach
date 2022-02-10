@@ -11,20 +11,20 @@ namespace DBApproach.Domain.Repositories.Models
     {
         public Section()
         {
-            Attendance = new HashSet<Attendance>();
-            ImportExport = new HashSet<ImportExport>();
+            Account = new HashSet<Account>();
             Process = new HashSet<Process>();
         }
 
-        public string AccountId { get; set; }
+        public int SectionId { get; set; }
+        public int? SectionLeadId { get; set; }
         public string ComponentId { get; set; }
         public int? WorkerAmount { get; set; }
         public bool? IsAssemble { get; set; }
+        public string InstructionFilePath { get; set; }
 
-        public virtual Account Account { get; set; }
         public virtual Component Component { get; set; }
-        public virtual ICollection<Attendance> Attendance { get; set; }
-        public virtual ICollection<ImportExport> ImportExport { get; set; }
+        public virtual Account SectionLead { get; set; }
+        public virtual ICollection<Account> Account { get; set; }
         public virtual ICollection<Process> Process { get; set; }
     }
 }

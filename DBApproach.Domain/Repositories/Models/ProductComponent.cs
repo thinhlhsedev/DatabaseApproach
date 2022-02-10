@@ -9,7 +9,7 @@ namespace DBApproach.Domain.Repositories.Models
 {
     public partial class ProductComponent
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string ProductId { get; set; }
         public string ComponentId { get; set; }
         public int? Amount { get; set; }

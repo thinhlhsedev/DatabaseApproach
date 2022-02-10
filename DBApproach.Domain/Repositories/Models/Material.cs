@@ -18,8 +18,8 @@ namespace DBApproach.Domain.Repositories.Models
         public string MaterialId { get; set; }
         public string MaterialName { get; set; }
         public int? Amount { get; set; }
+        public string Unit { get; set; }
         public string ImageUrl { get; set; }
-        public int? Unit { get; set; }
         public string Status { get; set; }
 
         public virtual ICollection<ComponentMaterial> ComponentMaterial { get; set; }

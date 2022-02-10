@@ -20,7 +20,6 @@ namespace DBApproach.Domain.Repositories.Models
         public int? Amount { get; set; }
         public double? Price { get; set; }
         public string ImageUrl { get; set; }
-        public string Unit { get; set; }
         public DateTime? ManufacturingDate { get; set; }
         public DateTime? ExpiryDate { get; set; }
         public string Status { get; set; }

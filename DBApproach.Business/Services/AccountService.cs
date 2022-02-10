@@ -17,7 +17,7 @@ namespace DBApproach.Business.Services
 
         public async Task<List<Account>> GetAllAccounts()
         {
-            return await _accountRepository.GetAll(p => p.AccountId != null);
+            return await _accountRepository.GetAll(p => p.AccountId != 0);
         }
 
         public async Task<Account> GetAccountById(string accountId)
